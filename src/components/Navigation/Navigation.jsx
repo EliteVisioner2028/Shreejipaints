@@ -72,12 +72,14 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#63171b] shadow-lg">
       <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-18">
-          {/* Logo */}
-          <div className="flex items-center pl-2">
+          <div className="flex items-center">
             <img
               src={logo}
               alt="Logo"
-              className="h-33 sm:h-32 md:h-45 w-auto ml-[-10px] object-contain"
+              width={120}
+              height={80}
+              loading="eager"
+              className="h-30 sm:h-28 md:h-38 w-auto object-contain"
             />
           </div>
 
