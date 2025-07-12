@@ -1,0 +1,130 @@
+.about-wall-container {
+  background-size: cover;
+  background-position: center;
+  min-height: 100vh;
+  position: relative;
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+}
+
+.about-overlay {
+  background-color: rgba(0, 0, 0, 0.6);
+  min-height: 100vh;
+  padding: 3rem 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.about-header h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7rem;
+  font-size: 2.2rem;
+  color: #fff;
+  margin-bottom: 1.5rem;
+}
+
+.icon {
+  height: 1.5rem;
+  width: 1.5rem;
+}
+
+.icon.highlight {
+  color: gold;
+}
+
+.theme-selector {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.theme-card {
+  display: flex;
+  gap: 5px;
+  padding: 10px;
+  background: #ffffffcc;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.theme-card:hover {
+  transform: scale(1.05);
+}
+
+.theme-card.active {
+  border: 2px solid gold;
+  box-shadow: 0 0 10px gold;
+}
+
+.theme-dot {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  border: 1px solid #333;
+}
+
+.about-content {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.golden-badge {
+  background: linear-gradient(145deg, gold, #e6c200);
+  color: #333;
+  padding: 1.5rem;
+  border-radius: 20px;
+  box-shadow: 0 0 12px rgba(255, 215, 0, 0.7);
+  margin-bottom: 2rem;
+}
+
+.badge-icon {
+  width: 40px;
+  height: 40px;
+  color: #222;
+}
+
+.bio-box {
+  background-color: rgba(255, 255, 255, 0.15);
+  padding: 1.5rem;
+  border-radius: 12px;
+  backdrop-filter: blur(5px);
+}
+
+.bio-box h3 {
+  font-size: 1.8rem;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.bio-box p {
+  font-size: 1rem;
+  color: #ddd;
+}
+
+.quote {
+  font-style: italic;
+  margin-top: 1rem;
+  color: #f0f0f0;
+}
+
+.wall-swatches {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.swatch-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid white;
+  box-shadow: 0 0 6px #fff;
+}

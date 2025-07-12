@@ -1,0 +1,19 @@
+
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+/* Custom hero title styles */
+.hero-title {
+  @apply text-4xl md:text-6xl lg:text-8xl font-black text-center uppercase tracking-wider;
+  font-family: 'Arial Black', Arial, sans-serif;
+  background: linear-gradient(45deg, #75070C, #A50A11, #75070C);
+  background-size: 300% 300%;
+  animation: gradientShift 3s ease infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 0.9;
+  letter-spacing: -0.05em;
+  position: relative;
+}
+
