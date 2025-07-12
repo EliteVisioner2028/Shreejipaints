@@ -106,7 +106,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
               letterSpacing: "-0.01em",
             }}
           >
-            Authorised Dealer of
+            Authorised Dealer 
           </p>
           <div className="flex flex-wrap justify-center items-stretch gap-6 md:gap-8">
             <div className="w-[280px] md:w-[320px] px-6 py-4 rounded-xl shadow-lg border-2 border-[#B5123C]/70 hover:border-[#75070C] transition duration-500 hover:scale-105 flex flex-col items-center gap-3 text-[#6D1B3B] relative overflow-hidden">

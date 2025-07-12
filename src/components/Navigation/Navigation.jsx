@@ -79,7 +79,7 @@ const Navigation = () => {
               width={120}
               height={80}
               loading="eager"
-              className="h-30 sm:h-28 md:h-38 w-auto object-contain"
+              className="h-30 sm:h-28 md:h-36 w-auto object-contain"
             />
           </div>
 
