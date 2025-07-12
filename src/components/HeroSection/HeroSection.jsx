@@ -1,29 +1,30 @@
-import React, { useEffect, useState } from "react";
-import Confetti from "react-confetti";
-import { useWindowSize } from "@react-hook/window-size";
-import bergerLogo from "../../assets/Images/berger-paints-seeklogo.png"; // Adjust the path as needed
-import birlaLogo from "../../assets/Images/birla-opus-logo-v1.svg"; // Adjust the path as needed
-import "./HeroSection.css"; // For custom animations like 'fade-in-up'
+"use client" // Keep this directive for client-side functionality
+import { useEffect, useState } from "react"
+import Confetti from "react-confetti"
+import { useWindowSize } from "@react-hook/window-size"
+import bergerLogo from "../../assets/Images/berger-paints-seeklogo.png" // Adjust the path as needed
+import birlaLogo from "../../assets/Images/birla-opus-logo-v1.svg" // Adjust the path as needed
+import "./HeroSection.css" // For custom animations like 'fade-in-up'
 
 const HeroSection = ({ onGetInTouchClick }) => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [showConfetti, setShowConfetti] = useState(true);
-  const [width, height] = useWindowSize();
+  const [isVisible, setIsVisible] = useState(false)
+  const [showConfetti, setShowConfetti] = useState(true)
+  const [width, height] = useWindowSize()
 
   useEffect(() => {
-    setIsVisible(true);
-    const timer = setTimeout(() => setShowConfetti(false), 3000);
-    return () => clearTimeout(timer);
-  }, []);
+    setIsVisible(true) // Make content visible immediately on mount
+    // Confetti will show for 15 seconds, allowing it to fall completely
+    const timer = setTimeout(() => setShowConfetti(false), 15000)
+    return () => clearTimeout(timer)
+  }, [])
 
   return (
     <section
       id="home"
       className="relative min-h-screen flex items-center justify-center bg-cover overflow-hidden pt-16"
       style={{
-        backgroundImage:
-          "url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg')",
-          backgroundAttachment: "fixed",
+        backgroundImage: "url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg')",
+        backgroundAttachment: "fixed",
       }}
     >
       {/* Oat Color Overlay */}
@@ -34,7 +35,6 @@ const HeroSection = ({ onGetInTouchClick }) => {
           mixBlendMode: "multiply",
         }}
       ></div>
-
       {/* Additional warm tone overlay */}
       <div
         className="absolute inset-0 z-0"
@@ -47,20 +47,13 @@ const HeroSection = ({ onGetInTouchClick }) => {
       {showConfetti && (
         <Confetti
           width={width}
-          height={height}
-          numberOfPieces={300}
+          height={height + 200} // Increased height to ensure confetti falls below the viewport
+          numberOfPieces={1000} // Increased number of pieces for more abundance
           recycle={false}
-          gravity={0.4}
-          initialVelocityY={2}
-          colors={[
-            "#E91E63",
-            "#3CA673",
-            "#F4C430",
-            "#6C4AB6",
-            "#E55D4A",
-            "#309cf4",
-          ]}
-          confettiSource={{ x: 0, y: 0, w: width, h: 0 }}
+          gravity={0.03} // Further reduced gravity for a very slow, floaty fall
+          initialVelocityY={0.05} // Further reduced initial velocity for a gentler start
+          colors={["#E91E63", "#3CA673", "#F4C430", "#6C4AB6", "#E55D4A", "#309cf4"]}
+          confettiSource={{ x: 0, y: 0, w: width, h: 0 }} // Still from top edge
         />
       )}
 
@@ -86,7 +79,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
       {/* Main Content */}
       <div className="container mx-auto px-4 text-center relative z-10">
         <h1
-          className={`text-3xl sm:text-4xl md:text-6xl font-bold text-[#75070C] mb-8 transition-all duration-2000 text-center break-words leading-tight px-4 ${
+          className={`text-3xl sm:text-4xl md:text-6xl font-bold text-[#75070C] mb-8 transition-all duration-10 delay-2 text-center break-words leading-tight px-4 ${
             isVisible ? "animate-fade-in-up" : "opacity-0 translate-y-8"
           }`}
           style={{
@@ -98,9 +91,9 @@ const HeroSection = ({ onGetInTouchClick }) => {
         >
           SHREEJI PAINTS & HARDWARE
         </h1>
-
         <div
-          className={`mt-8 transition-all duration-2000 delay-500 ${
+          className={`mt-8 transition-all duration-100 delay-2 ${
+            
             isVisible ? "animate-fade-in-up" : "opacity-0 translate-y-8"
           }`}
         >
@@ -115,7 +108,6 @@ const HeroSection = ({ onGetInTouchClick }) => {
           >
             Authorised Dealer of
           </p>
-
           <div className="flex flex-wrap justify-center items-stretch gap-6 md:gap-8">
             <div className="w-[280px] md:w-[320px] px-6 py-4 rounded-xl shadow-lg border-2 border-[#B5123C]/70 hover:border-[#75070C] transition duration-500 hover:scale-105 flex flex-col items-center gap-3 text-[#6D1B3B] relative overflow-hidden">
               <span
@@ -130,13 +122,12 @@ const HeroSection = ({ onGetInTouchClick }) => {
                 Berger Paints
               </span>
               <img
-                src={bergerLogo}
+                src={bergerLogo || "/placeholder.svg"}
                 alt="Berger Logo"
                 className="h-16 w-auto object-contain z-10 drop-shadow"
               />
             </div>
-
-            <div className="w-[280px] md:w-[320px] px-6 py-4 rounded-xl shadow-lg border-2 border-[#2D572C]/70 hover:border-[#2D572C]/90 transition duration-500 hover:scale-105 flex flex-col items-center gap-3  text-[#2D572C] relative overflow-hidden">
+            <div className="w-[280px] md:w-[320px] px-6 py-4 rounded-xl shadow-lg border-2 border-[#2D572C]/70 hover:border-[#2D572C]/90 transition duration-500 hover:scale-105 flex flex-col items-center gap-3 text-[#2D572C] relative overflow-hidden">
               <span
                 className="text-xl md:text-2xl font-bold z-10 drop-shadow"
                 style={{
@@ -149,16 +140,15 @@ const HeroSection = ({ onGetInTouchClick }) => {
                 Birla Opus Paints
               </span>
               <img
-                src={birlaLogo}
+                src={birlaLogo || "/placeholder.svg"}
                 alt="Birla Logo"
                 className="h-16 w-auto object-contain z-10 drop-shadow"
               />
             </div>
           </div>
         </div>
-
         <div
-          className={`mt-12 transition-all duration-2000 delay-1000 ${
+          className={`mt-12 transition-all duration-100 delay-2 ${
             isVisible ? "animate-fade-in-up" : "opacity-0 translate-y-8"
           }`}
         >
@@ -177,7 +167,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default HeroSection;
+export default HeroSection

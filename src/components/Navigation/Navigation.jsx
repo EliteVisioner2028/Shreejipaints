@@ -1,89 +1,92 @@
-import { useState, useEffect } from "react"
-import { Menu, X, Home, Package, Users, Mail } from "lucide-react"
+import { useState, useEffect } from "react";
+import { Menu, X, Home, Package, Users, Mail } from "lucide-react";
+import logo from "../../assets/Images/logo.png"; // or '../assets/logo.png' depending on file location
 
 const Navigation = () => {
-  const [activeLink, setActiveLink] = useState("Home")
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [isManualScroll, setIsManualScroll] = useState(false)
+  const [activeLink, setActiveLink] = useState("Home");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isManualScroll, setIsManualScroll] = useState(false);
 
   const navigationItems = [
     { name: "Home", icon: Home, href: "#home" },
     { name: "About", icon: Users, href: "#about" },
     { name: "Products", icon: Package, href: "#products" },
     { name: "Contact", icon: Mail, href: "#contact" },
-  ]
+  ];
 
   const handleLinkClick = (linkName, href) => {
-    setActiveLink(linkName)
-    setIsManualScroll(true) // Disable scroll-based updates temporarily
-    setIsMobileMenuOpen(false)
+    setActiveLink(linkName);
+    setIsManualScroll(true); // Disable scroll-based updates temporarily
+    setIsMobileMenuOpen(false);
 
     if (href && href.startsWith("#")) {
-      const element = document.querySelector(href)
+      const element = document.querySelector(href);
       if (element) {
-        const navHeight = 64
-        const elementPosition = element.offsetTop - navHeight
+        const navHeight = 64;
+        const elementPosition = element.offsetTop - navHeight;
 
         window.scrollTo({
           top: elementPosition,
           behavior: "smooth",
-        })
+        });
 
         // Re-enable scroll-based updates after scroll likely ends
         setTimeout(() => {
-          setIsManualScroll(false)
-        }, 500) // adjust this if needed
+          setIsManualScroll(false);
+        }, 500); // adjust this if needed
       }
     }
-  }
+  };
 
   useEffect(() => {
     const handleScroll = () => {
-      if (isManualScroll) return // Skip scroll-based updates during manual scroll
+      if (isManualScroll) return; // Skip scroll-based updates during manual scroll
 
       const sections = navigationItems
         .map((item) => ({
           name: item.name,
           element: document.querySelector(item.href),
         }))
-        .filter((section) => section.element)
+        .filter((section) => section.element);
 
-      const scrollPosition = window.scrollY + 100
+      const scrollPosition = window.scrollY + 100;
 
       for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i]
+        const section = sections[i];
         if (section.element.offsetTop <= scrollPosition) {
-          setActiveLink(section.name)
-          break
+          setActiveLink(section.name);
+          break;
         }
       }
-    }
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [isManualScroll]) // Re-run effect if scroll-lock changes
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }); // Re-run effect if scroll-lock changes
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#75070C] shadow-lg">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#63171b] shadow-lg">
+      <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-18">
           {/* Logo */}
-          <div className="flex items-center">
-            <div className="flex-shrink-0">
-              <h1 className="text-[#FFEDAB] text-xl font-bold tracking-wide">SHREEJI PAINTS</h1>
-            </div>
+          <div className="flex items-center pl-2">
+            <img
+              src={logo}
+              alt="Logo"
+              className="h-33 sm:h-32 md:h-45 w-auto ml-[-10px] object-contain"
+            />
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-1 relative">
               {navigationItems.map((item) => {
-                const Icon = item.icon
-                const isActive = activeLink === item.name
+                const Icon = item.icon;
+                const isActive = activeLink === item.name;
                 return (
                   <button
                     key={item.name}
@@ -100,7 +103,7 @@ const Navigation = () => {
                       <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full"></div>
                     )}
                   </button>
-                )
+                );
               })}
             </div>
           </div>
@@ -127,8 +130,8 @@ const Navigation = () => {
       >
         <div className="px-2 pt-2 pb-3 space-y-1 bg-[#75070C] bg-opacity-95 backdrop-blur-sm">
           {navigationItems.map((item) => {
-            const Icon = item.icon
-            const isActive = activeLink === item.name
+            const Icon = item.icon;
+            const isActive = activeLink === item.name;
             return (
               <button
                 key={item.name}
@@ -142,12 +145,12 @@ const Navigation = () => {
                 <Icon size={18} />
                 {item.name}
               </button>
-            )
+            );
           })}
         </div>
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default Navigation
+export default Navigation;

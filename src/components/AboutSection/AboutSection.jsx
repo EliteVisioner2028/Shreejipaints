@@ -441,7 +441,7 @@ const AboutSection = () => {
               textShadow: "0 4px 8px rgba(0,0,0,0.3)",
             }}
           >
-            <Award className="h-6 w-6 md:h-8 md:w-8 text-[#F4C430]" />
+            <Award className="h-6 w-6 md:h-8 md:w-8 text-[#1f01a3]" />
             <span>Our Golden Credentials</span>
           </h3>
 
