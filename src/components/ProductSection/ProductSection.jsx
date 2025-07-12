@@ -1,37 +1,36 @@
-"use client"
 
 import { useState, useEffect, useRef } from "react"
 import { Download, Star, Shield, Award, ChevronDown, ChevronUp } from "lucide-react"
 import { productsData, categoryInfo } from "../../data/productsData" // Adjusted import path for React project
 
-import OnePureElegancePDF from "../../../public/pdfs/one-true-look.pdf";
-import CalistaEverwashPDF from "../../../public/pdfs/calista-everwash.pdf";
-import CalistaEverClearPDF from "../../../public/pdfs/calista-ever-clear.pdf";
-import StyleColorSmartPDF from "../../../public/pdfs/style-color-smart.pdf";
-import StyleSuperBrightPDF from "../../../public/pdfs/style-super-bright.pdf";
-import BisonGlowPDF from "../../../public/pdfs/bison-glow.pdf";
-import EasyCleanPDF from "../../../public/pdfs/easy-clean.pdf";
-import SilkGlamorPDF from "../../../public/pdfs/silk-glamor-soft-sheen.pdf";
-import RangoliTotalCarePDF from "../../../public/pdfs/rangoli-total-care.pdf";
-import OneTrueLookPDF from "../../../public/pdfs/one-true-look.pdf";
-import CalistaNeoStarPDF from "../../../public/pdfs/calista-neo-star.pdf";
-import CalistaNeoStarShinePDF from "../../../public/pdfs/calista-neo-star-shine.pdf";
-import StylePowerBrightPDF from "../../../public/pdfs/style-power-bright.pdf";
-import WeathercoatLongLife10PDF from "../../../public/pdfs/weathercoat-longlife-10.pdf";
-import WeathercoatAntiDusttPDF from "../../../public/pdfs/weathercoat-anti-dustt.pdf";
-import WeathercoatGlowPDF from "../../../public/pdfs/weathercoat-glow.pdf";
-import WalmastaPDF from "../../../public/pdfs/walmasta.pdf";
-import WeathercoatLongLifeFlexoPDF from "../../../public/pdfs/weathercoat-longlife-flexo.pdf";
-import DampstopElastoPDF from "../../../public/pdfs/homeshield-dampstop-elasto.pdf";
-import RoofKoolAndSealPDF from "../../../public/pdfs/homeshield-roof-kool-and-seal.pdf";
-import AlldryWallRoof10PDF from "../../../public/pdfs/alldry-wall-roof-10.pdf";
-import AlldryWallRoof12PDF from "../../../public/pdfs/alldry-wall-roof-12.pdf";
-import AllwoodMelaminePDF from "../../../public/pdfs/allwood-melamine.pdf";
-import AllwoodItalianPUPDF from "../../../public/pdfs/allwood-italian-pu.pdf";
-import AllwoodPUInteriorPDF from "../../../public/pdfs/allwood-pu-interior.pdf";
-import Melamine24CaratPDF from "../../../public/pdfs/melamine-24carat.pdf";
-import Woodkeeper1KPUPDF from "../../../public/pdfs/woodkeeper-1kpu.pdf";
-import RainbowPDF from "../../../public/pdfs/rainbow.pdf";
+import OnePureElegancePDF from "../../assets/pdfs/one-true-look.pdf";
+import CalistaEverwashPDF from "../../assets/pdfs/calista-everwash.pdf";
+import CalistaEverClearPDF from "../../assets/pdfs/calista-ever-clear.pdf";
+import StyleColorSmartPDF from "../../assets/pdfs/style-color-smart.pdf";
+import StyleSuperBrightPDF from "../../assets/pdfs/style-super-bright.pdf";
+import BisonGlowPDF from "../../assets/pdfs/bison-glow.pdf";
+import EasyCleanPDF from "../../assets/pdfs/easy-clean.pdf";
+import SilkGlamorPDF from "../../assets/pdfs/silk-glamor-soft-sheen.pdf";
+import RangoliTotalCarePDF from "../../assets/pdfs/rangoli-total-care.pdf";
+import OneTrueLookPDF from "../../assets/pdfs/one-true-look.pdf";
+import CalistaNeoStarPDF from "../../assets/pdfs/calista-neo-star.pdf";
+import CalistaNeoStarShinePDF from "../../assets/pdfs/calista-neo-star-shine.pdf";
+import StylePowerBrightPDF from "../../assets/pdfs/style-power-bright.pdf";
+import WeathercoatLongLife10PDF from "../../assets/pdfs/weathercoat-longlife-10.pdf";
+import WeathercoatAntiDusttPDF from "../../assets/pdfs/weathercoat-anti-dustt.pdf";
+import WeathercoatGlowPDF from "../../assets/pdfs/weathercoat-glow.pdf";
+import WalmastaPDF from "../../assets/pdfs/walmasta.pdf";
+import WeathercoatLongLifeFlexoPDF from "../../assets/pdfs/weathercoat-longlife-flexo.pdf";
+import DampstopElastoPDF from "../../assets/pdfs/homeshield-dampstop-elasto.pdf";
+import RoofKoolAndSealPDF from "../../assets/pdfs/homeshield-roof-kool-and-seal.pdf";
+import AlldryWallRoof10PDF from "../../assets/pdfs/alldry-wall-roof-10.pdf";
+import AlldryWallRoof12PDF from "../../assets/pdfs/alldry-wall-roof-12.pdf";
+import AllwoodMelaminePDF from "../../assets/pdfs/allwood-melamine.pdf";
+import AllwoodItalianPUPDF from "../../assets/pdfs/allwood-italian-pu.pdf";
+import AllwoodPUInteriorPDF from "../../assets/pdfs/allwood-pu-interior.pdf";
+import Melamine24CaratPDF from "../../assets/pdfs/melamine-24carat.pdf";
+import Woodkeeper1KPUPDF from "../../assets/pdfs/woodkeeper-1kpu.pdf";
+import RainbowPDF from "../../assets/pdfs/rainbow.pdf";
 
 
 // Create a mapping object for easy access using the imported PDF variables

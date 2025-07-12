@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
-import bergerLogo from "../../../Images/berger-paints-seeklogo.png"; // Adjust the path as needed
-import birlaLogo from "../../../Images/birla-opus-logo-v1.svg"; // Adjust the path as needed
+import bergerLogo from "../../assets/Images/berger-paints-seeklogo.png"; // Adjust the path as needed
+import birlaLogo from "../../assets/Images/birla-opus-logo-v1.svg"; // Adjust the path as needed
 import "./HeroSection.css"; // For custom animations like 'fade-in-up'
 
 const HeroSection = ({ onGetInTouchClick }) => {
