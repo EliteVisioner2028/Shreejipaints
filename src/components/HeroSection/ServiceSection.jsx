@@ -62,18 +62,6 @@ const ServicesSection = () => {
       color: "#3CA673",
     },
     {
-      icon: Building,
-      title: "3000 sq.ft Warehouse",
-      description: "Ready stock available",
-      color: "#F4C430",
-    },
-    {
-      icon: Clock,
-      title: "Quick Turnaround",
-      description: "Priority timelines",
-      color: "#6C4AB6",
-    },
-    {
       icon: Award,
       title: "Quality Assured",
       description: "Trusted solutions",
@@ -109,7 +97,6 @@ const ServicesSection = () => {
   return (
     
     <section
-    
       ref={sectionRef}
       id="services"
       style={{
@@ -206,7 +193,7 @@ const ServicesSection = () => {
             <div className="w-16 h-1 bg-gradient-to-r from-green-600 to-blue-600 rounded-full mx-auto"></div>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {infrastructure.map((item, index) => {
               const IconComponent = item.icon;
               return (

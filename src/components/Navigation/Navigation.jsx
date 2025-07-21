@@ -1,34 +1,37 @@
 "use client"
 
-import { useState, useEffect } from "react"
-import { Menu, X, Home, Wrench, Users, Mail, Package } from 'lucide-react'
+import { useState, useEffect, useRef } from "react"
+import { Menu, X, Home, Wrench, Users, Mail, Package } from "lucide-react"
 
 const Navigation = () => {
   const [activeLink, setActiveLink] = useState("Home")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-  const [showProductsDropdown, setShowProductsDropdown] = useState(false);
+  const [showProductsDropdown, setShowProductsDropdown] = useState(false)
+  const observerRef = useRef(null)
+  const [isProgrammaticScrolling, setIsProgrammaticScrolling] = useState(false) // New state to manage programmatic scrolling
 
   const navigationItems = [
     { name: "Home", icon: Home, href: "#home" },
     { name: "About", icon: Users, href: "#about" },
     { name: "Services", icon: Wrench, href: "#services" },
-    { 
-      name: "Products", 
-      icon: Package, 
+    {
+      name: "Products",
+      icon: Package,
       href: "#products",
       dropdown: [
         { name: "Decorative Paints", id: "decorative-paints" },
         { name: "Waterproofing Paints", id: "waterproofing-paints" },
-        { name: "Industrial Paints", id: "industrial-paints" }
-      ]
+        { name: "Industrial Paints", id: "industrial-paints" },
+      ],
     },
     { name: "Contact", icon: Mail, href: "#contact" },
-  ];
+  ]
 
   // Handle smooth scrolling
   const handleLinkClick = (linkName, href) => {
-    setActiveLink(linkName)
+    setActiveLink(linkName) // Set active immediately on click
     setIsMobileMenuOpen(false)
+    setIsProgrammaticScrolling(true) // Indicate programmatic scroll is starting
 
     // Smooth scroll to section
     if (href && href.startsWith("#")) {
@@ -41,59 +44,114 @@ const Navigation = () => {
           top: elementPosition,
           behavior: "smooth",
         })
+
+        // Use a timeout to re-enable observer after scroll animation
+        // A reasonable duration for smooth scroll is usually 500-1000ms
+        setTimeout(() => {
+          setIsProgrammaticScrolling(false)
+        }, 800) // Adjust this duration if your scroll animation is longer/shorter
+      } else {
+        setIsProgrammaticScrolling(false) // If element not found, reset immediately
       }
+    } else {
+      setIsProgrammaticScrolling(false) // If not a hash link, reset immediately
     }
   }
 
   const handleProductCategoryClick = (categoryId) => {
-    setActiveLink("Products");
-    setShowProductsDropdown(false);
-    setIsMobileMenuOpen(false);
-    
+    setActiveLink("Products")
+    setShowProductsDropdown(false)
+    setIsMobileMenuOpen(false)
+    setIsProgrammaticScrolling(true) // Indicate programmatic scroll is starting
+
     // Scroll to products section first
-    const element = document.querySelector("#products");
+    const element = document.querySelector("#products")
     if (element) {
-      const navHeight = 64;
-      const elementPosition = element.offsetTop - navHeight;
+      const navHeight = 64
+      const elementPosition = element.offsetTop - navHeight
       window.scrollTo({
         top: elementPosition,
         behavior: "smooth",
-      });
-      
-      // After scrolling, trigger the category selection
+      })
+
+      // After scrolling, trigger the category selection and re-enable observer
       setTimeout(() => {
-        // Dispatch custom event to ProductSection
-        window.dispatchEvent(new CustomEvent('selectProductCategory', { 
-          detail: { categoryId } 
-        }));
-      }, 600);
+        window.dispatchEvent(
+          new CustomEvent("selectProductCategory", {
+            detail: { categoryId },
+          }),
+        )
+        setIsProgrammaticScrolling(false) // Re-enable observer after scroll and event dispatch
+      }, 800) // Adjust this duration if your scroll animation is longer/shorter
+    } else {
+      setIsProgrammaticScrolling(false) // If element not found, reset immediately
     }
-  };
+  }
 
-  // Update active link based on scroll position
+  // Use Intersection Observer for smooth, flicker-free navigation
   useEffect(() => {
-    const handleScroll = () => {
-      const sections = navigationItems
-        .map((item) => ({
-          name: item.name,
-          element: document.querySelector(item.href),
-        }))
-        .filter((section) => section.element)
+    // Clean up previous observer
+    if (observerRef.current) {
+      observerRef.current.disconnect()
+    }
 
-      const scrollPosition = window.scrollY + 100 // Offset for fixed nav
+    const sections = navigationItems
+      .map((item) => ({
+        name: item.name,
+        element: document.querySelector(item.href),
+      }))
+      .filter((section) => section.element)
 
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i]
-        if (section.element.offsetTop <= scrollPosition) {
-          setActiveLink(section.name)
-          break
+    if (sections.length === 0) return
+
+    const observerOptions = {
+      root: null,
+      rootMargin: "-20% 0px -70% 0px", // Only trigger when section is in the middle 20-70% of viewport
+      threshold: 0,
+    }
+
+    const observerCallback = (entries) => {
+      // If we are programmatically scrolling, do not update activeLink via observer
+      if (isProgrammaticScrolling) {
+        return
+      }
+
+      // Find the section that's most visible
+      let mostVisibleSection = null
+      let maxIntersectionRatio = 0
+
+      entries.forEach((entry) => {
+        if (entry.isIntersecting && entry.intersectionRatio > maxIntersectionRatio) {
+          maxIntersectionRatio = entry.intersectionRatio
+          const sectionName = sections.find((s) => s.element === entry.target)?.name
+          if (sectionName) {
+            mostVisibleSection = sectionName
+          }
         }
+      })
+
+      // Only update if we found a visible section and it's different from current
+      if (mostVisibleSection && mostVisibleSection !== activeLink) {
+        setActiveLink(mostVisibleSection)
       }
     }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  })
+    observerRef.current = new IntersectionObserver(observerCallback, observerOptions)
+
+    // Observe all sections
+    sections.forEach((section) => {
+      if (section.element) {
+        observerRef.current.observe(section.element)
+      }
+    })
+
+    // Cleanup function
+    return () => {
+      if (observerRef.current) {
+        observerRef.current.disconnect()
+      }
+    }
+  }, [isProgrammaticScrolling, activeLink]) // Add isProgrammaticScrolling and activeLink to dependencies
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
@@ -114,9 +172,9 @@ const Navigation = () => {
           <div className="hidden md:block">
             <div className="ml-10 flex items-baseline space-x-1 relative">
               {navigationItems.map((item) => {
-                const Icon = item.icon;
-                const isActive = activeLink === item.name;
-                
+                const Icon = item.icon
+                const isActive = activeLink === item.name
+
                 if (item.dropdown) {
                   return (
                     <div key={item.name} className="relative">
@@ -124,7 +182,7 @@ const Navigation = () => {
                         onClick={() => handleLinkClick(item.name, item.href)}
                         onMouseEnter={() => setShowProductsDropdown(true)}
                         onMouseLeave={() => setShowProductsDropdown(false)}
-                        className={`relative px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-200 ease-in-out ${
+                        className={`relative px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-300 ease-in-out ${
                           isActive
                             ? "text-[#FFEDAB] bg-[#FFEDAB]/20"
                             : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/20"
@@ -133,10 +191,10 @@ const Navigation = () => {
                         <Icon size={16} />
                         {item.name}
                         {isActive && (
-                          <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full"></div>
+                          <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full transition-all duration-300"></div>
                         )}
                       </button>
-                      
+
                       {/* Dropdown Menu */}
                       <div
                         className={`absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 transition-all duration-200 ${
@@ -156,14 +214,14 @@ const Navigation = () => {
                         ))}
                       </div>
                     </div>
-                  );
+                  )
                 }
-                
+
                 return (
                   <button
                     key={item.name}
                     onClick={() => handleLinkClick(item.name, item.href)}
-                    className={`relative px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-200 ease-in-out ${
+                    className={`relative px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-300 ease-in-out ${
                       isActive
                         ? "text-[#FFEDAB] bg-[#FFEDAB]/20"
                         : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/20"
@@ -172,10 +230,10 @@ const Navigation = () => {
                     <Icon size={16} />
                     {item.name}
                     {isActive && (
-                      <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full"></div>
+                      <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full transition-all duration-300"></div>
                     )}
                   </button>
-                );
+                )
               })}
             </div>
           </div>
@@ -202,15 +260,15 @@ const Navigation = () => {
       >
         <div className="px-2 pt-2 pb-3 space-y-1 bg-[#75070C] bg-opacity-95 backdrop-blur-sm">
           {navigationItems.map((item) => {
-            const Icon = item.icon;
-            const isActive = activeLink === item.name;
-            
+            const Icon = item.icon
+            const isActive = activeLink === item.name
+
             if (item.dropdown) {
               return (
                 <div key={item.name}>
                   <button
                     onClick={() => handleLinkClick(item.name, item.href)}
-                    className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ease-in-out flex items-center gap-3 ${
+                    className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ease-in-out flex items-center gap-3 ${
                       isActive
                         ? "text-[#FFEDAB] bg-[#FFEDAB]/10 border-l-4 border-[#FFEDAB]"
                         : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10"
@@ -225,21 +283,21 @@ const Navigation = () => {
                       <button
                         key={dropdownItem.id}
                         onClick={() => handleProductCategoryClick(dropdownItem.id)}
-                        className="w-full text-left px-3 py-2 text-sm text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10 rounded-md transition-all duration-200"
+                        className="w-full text-left px-3 py-2 text-sm text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10 rounded-md transition-all duration-300"
                       >
                         • {dropdownItem.name}
                       </button>
                     ))}
                   </div>
                 </div>
-              );
+              )
             }
-            
+
             return (
               <button
                 key={item.name}
                 onClick={() => handleLinkClick(item.name, item.href)}
-                className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ease-in-out flex items-center gap-3 ${
+                className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ease-in-out flex items-center gap-3 ${
                   isActive
                     ? "text-[#FFEDAB] bg-[#FFEDAB]/10 border-l-4 border-[#FFEDAB]"
                     : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10"
@@ -248,7 +306,7 @@ const Navigation = () => {
                 <Icon size={18} />
                 {item.name}
               </button>
-            );
+            )
           })}
         </div>
       </div>
