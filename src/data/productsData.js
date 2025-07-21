@@ -172,7 +172,7 @@ import PowerPlasticizers from "../assets/pdfs/PowerPlasticizers.pdf";
 import HSProShield from "../assets/pdfs/HSProshieldSBS-SA.pdf";
 import HSProShieldPDF from "../assets/pdfs/HS Proshield HM HDPE.pdf";
 import HomeShieldShalicrystal100PDF from "../assets/pdfs/HomeShieldShalicrystal100.pdf";
-import TarFeltDPCPDF from "../assets/pdfs/TarFeltDPC.pdf";
+import TarFeltDPCPDF from "../assets/pdfs/TarfeltDPC.pdf";
 import HomeShieldEpibondPDF from "../assets/pdfs/HomeShieldEpibond.pdf";
 import HomeShieldPUElastosealPrimerPDF from "../assets/pdfs/HomeShieldPUElastosealPrimerPDF.pdf";
 import DampstopAdvancedPDF from "../assets/pdfs/DampstopAdvanced.pdf";
