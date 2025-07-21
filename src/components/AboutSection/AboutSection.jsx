@@ -19,7 +19,6 @@ import {
   Sparkles,
   ChevronDown,
 } from "lucide-react";
-
 const AboutSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeColorTheme, setActiveColorTheme] = useState(0);
@@ -63,18 +62,6 @@ const AboutSection = () => {
         title: "Gold Card Dealer",
         description: "Authorized Gold Card Dealer",
         color: "#F4C430",
-      },
-      {
-        icon: Star,
-        title: "Double Gold Card",
-        description: "Premium Double Gold Card Status",
-        color: "#E91E63",
-      },
-      {
-        icon: Shield,
-        title: "Authorized Dealer",
-        description: "Official Berger & Birla Opus Dealer",
-        color: "#3CA673",
       },
     ],
     []
@@ -382,7 +369,7 @@ const AboutSection = () => {
                     ))}
                   </div>
 
-                  <div className="p-6 md:p-8">
+                  <div className="p-6 md:p-10">
                     <div className="flex flex-col sm:flex-row items-center sm:items-start space-y-4 sm:space-y-0 sm:space-x-6">
                       {/* Icon */}
                       <div className="p-4 flex justify-center sm:justify-start flex-shrink-0">
@@ -426,106 +413,40 @@ const AboutSection = () => {
         </div>
 
         {/* Achievements Section */}
+        {/* Simplified Achievements */}
         <div
           className={`mb-12 md:mb-16 transition-all duration-700 delay-300 ${
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <h3
-            className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-8 md:mb-12 flex flex-col sm:flex-row items-center justify-center space-y-2 sm:space-y-0 sm:space-x-4"
-            style={{
-              color: "#75070C",
-              fontFamily:
-                "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-              fontWeight: 700,
-              textShadow: "0 4px 8px rgba(0,0,0,0.3)",
-            }}
-          >
-            <Award className="h-6 w-6 md:h-8 md:w-8 text-[#1f01a3]" />
+          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-8 md:mb-12 flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0">
+            <Award className="h-6 w-6 md:h-8 md:w-8 text-[#8A3324] md:mr-4" />
             <span>Our Golden Credentials</span>
           </h3>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
-            {achievements.map((achievement, index) => {
-              const IconComponent = achievement.icon;
-              return (
-                <div
-                  key={index}
-                  className="relative group rounded-2xl md:rounded-3xl p-6 md:p-8 shadow-xl text-center hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-gray-300"
-                  style={{
-                    backgroundColor: "rgba(255, 255, 255, 0.98)",
-                    backdropFilter: "blur(10px)",
-                  }}
-                >
-                  <div className="w-16 h-16 sm:w-20 sm:h-20 md:w-24 md:h-24 mx-auto mb-4 md:mb-6 rounded-full flex items-center justify-center shadow-xl bg-white border-4 border-gray-200">
-                    <IconComponent
-                      className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12"
-                      style={{ color: achievement.color }}
-                    />
-                  </div>
-                  <h4
-                    className="text-lg sm:text-xl md:text-2xl font-bold mb-3 md:mb-4"
-                    style={{
-                      color: "#75070C",
-                      fontFamily:
-                        "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-                      fontWeight: 700,
-                    }}
-                  >
-                    {achievement.title}
-                  </h4>
-                  <p
-                    className="font-semibold text-sm md:text-base"
-                    style={{
-                      color: "#5A0509",
-                      fontFamily:
-                        "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {achievement.description}
-                  </p>
+          <div className="flex justify-center items-center flex-wrap gap-6">
+            {achievements.map((achievement, index) => (
+              <div
+                key={`achievement-${index}`}
+                className="w-[600px] relative group bg-white/95 backdrop-blur-md rounded-2xl md:rounded-3xl p-8 md:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-yellow-400"
+              >
+                {/* Gold Card Image */}
+                <div className="w-full h-40 md:h-56 lg:h-64 mb-6 overflow-hidden rounded-xl shadow-md border-4 border-yellow-300">
+                  <img
+                    src={achievement.image}
+                    alt={achievement.title}
+                    className="w-full h-full object-contain"
+                  />
+                  {/* Optional gradient overlay for premium glow effect */}
+                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-yellow-200/10 to-yellow-500/10 pointer-events-none" />
                 </div>
-              );
-            })}
-          </div>
-        </div>
 
-        {/* Call to Action */}
-        <div
-          className={`text-center transition-all duration-700 delay-500 ${
-            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
-          }`}
-        >
-          <div className="relative bg-gradient-to-r from-[#75070C] via-[#8B0A0F] to-[#E91E63] rounded-2xl md:rounded-3xl p-6 sm:p-8 md:p-12 shadow-xl overflow-hidden">
-            <h3
-              className="text-xl sm:text-2xl md:text-4xl font-bold mb-4 md:mb-6 relative z-10 text-center"
-              style={{
-                color: "#FFEDAB",
-                fontFamily:
-                  "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-                fontWeight: 700,
-              }}
-            >
-              Ready to Paint Your Dreams? 🎨
-            </h3>
-            <p
-              className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 md:mb-10 max-w-3xl mx-auto leading-relaxed relative z-10 font-medium px-4 text-center"
-              style={{
-                color: "#FFEDAB",
-                fontFamily:
-                  "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
-                fontWeight: 500,
-              }}
-            >
-              Join thousands who've transformed their world with our magical
-              colors. Your perfect shade awaits! ✨
-            </p>
-
-            {/* Centered, large bouncing arrow */}
-            <div className="flex justify-center">
-              <ChevronDown className="h-8 w-8 sm:h-10 sm:w-10 text-[#FFEDAB] font-bold animate-bounce" />
-            </div>
+                {/* Title */}
+                <h4 className="text-2xl md:text-3xl font-extrabold mb-4 text-[#B8860B] tracking-wide text-center">
+                  {achievement.title}
+                </h4>
+              </div>
+            ))}
           </div>
         </div>
       </div>

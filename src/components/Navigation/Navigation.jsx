@@ -1,86 +1,113 @@
-import { useState, useEffect } from "react";
-import { Menu, X, Home, Package, Users, Mail } from "lucide-react";
-import logo from "../../assets/Images/logo.png"; // or '../assets/logo.png' depending on file location
+"use client"
+
+import { useState, useEffect } from "react"
+import { Menu, X, Home, Wrench, Users, Mail, Package } from 'lucide-react'
 
 const Navigation = () => {
-  const [activeLink, setActiveLink] = useState("Home");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isManualScroll, setIsManualScroll] = useState(false);
+  const [activeLink, setActiveLink] = useState("Home")
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const [showProductsDropdown, setShowProductsDropdown] = useState(false);
 
   const navigationItems = [
     { name: "Home", icon: Home, href: "#home" },
     { name: "About", icon: Users, href: "#about" },
-    { name: "Products", icon: Package, href: "#products" },
+    { name: "Services", icon: Wrench, href: "#services" },
+    { 
+      name: "Products", 
+      icon: Package, 
+      href: "#products",
+      dropdown: [
+        { name: "Decorative Paints", id: "decorative-paints" },
+        { name: "Waterproofing Paints", id: "waterproofing-paints" },
+        { name: "Industrial Paints", id: "industrial-paints" }
+      ]
+    },
     { name: "Contact", icon: Mail, href: "#contact" },
   ];
 
+  // Handle smooth scrolling
   const handleLinkClick = (linkName, href) => {
-    setActiveLink(linkName);
-    setIsManualScroll(true); // Disable scroll-based updates temporarily
-    setIsMobileMenuOpen(false);
+    setActiveLink(linkName)
+    setIsMobileMenuOpen(false)
 
+    // Smooth scroll to section
     if (href && href.startsWith("#")) {
-      const element = document.querySelector(href);
+      const element = document.querySelector(href)
       if (element) {
-        const navHeight = 64;
-        const elementPosition = element.offsetTop - navHeight;
+        const navHeight = 64 // Height of fixed navigation
+        const elementPosition = element.offsetTop - navHeight
 
         window.scrollTo({
           top: elementPosition,
           behavior: "smooth",
-        });
-
-        // Re-enable scroll-based updates after scroll likely ends
-        setTimeout(() => {
-          setIsManualScroll(false);
-        }, 500); // adjust this if needed
+        })
       }
+    }
+  }
+
+  const handleProductCategoryClick = (categoryId) => {
+    setActiveLink("Products");
+    setShowProductsDropdown(false);
+    setIsMobileMenuOpen(false);
+    
+    // Scroll to products section first
+    const element = document.querySelector("#products");
+    if (element) {
+      const navHeight = 64;
+      const elementPosition = element.offsetTop - navHeight;
+      window.scrollTo({
+        top: elementPosition,
+        behavior: "smooth",
+      });
+      
+      // After scrolling, trigger the category selection
+      setTimeout(() => {
+        // Dispatch custom event to ProductSection
+        window.dispatchEvent(new CustomEvent('selectProductCategory', { 
+          detail: { categoryId } 
+        }));
+      }, 600);
     }
   };
 
+  // Update active link based on scroll position
   useEffect(() => {
     const handleScroll = () => {
-      if (isManualScroll) return; // Skip scroll-based updates during manual scroll
-
       const sections = navigationItems
         .map((item) => ({
           name: item.name,
           element: document.querySelector(item.href),
         }))
-        .filter((section) => section.element);
+        .filter((section) => section.element)
 
-      const scrollPosition = window.scrollY + 100;
+      const scrollPosition = window.scrollY + 100 // Offset for fixed nav
 
       for (let i = sections.length - 1; i >= 0; i--) {
-        const section = sections[i];
+        const section = sections[i]
         if (section.element.offsetTop <= scrollPosition) {
-          setActiveLink(section.name);
-          break;
+          setActiveLink(section.name)
+          break
         }
       }
-    };
+    }
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }); // Re-run effect if scroll-lock changes
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  })
 
   const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-  };
+    setIsMobileMenuOpen(!isMobileMenuOpen)
+  }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#63171b] shadow-lg">
-      <div className="max-w-10xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-18">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-[#75070C] shadow-lg">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-16">
+          {/* Logo */}
           <div className="flex items-center">
-            <img
-              src={logo}
-              alt="Logo"
-              width={120}
-              height={80}
-              loading="eager"
-              className="h-30 sm:h-28 md:h-36 w-auto object-contain"
-            />
+            <div className="flex-shrink-0">
+              <h1 className="text-[#FFEDAB] text-xl font-bold tracking-wide">SHREEJI PAINTS</h1>
+            </div>
           </div>
 
           {/* Desktop Navigation */}
@@ -89,6 +116,49 @@ const Navigation = () => {
               {navigationItems.map((item) => {
                 const Icon = item.icon;
                 const isActive = activeLink === item.name;
+                
+                if (item.dropdown) {
+                  return (
+                    <div key={item.name} className="relative">
+                      <button
+                        onClick={() => handleLinkClick(item.name, item.href)}
+                        onMouseEnter={() => setShowProductsDropdown(true)}
+                        onMouseLeave={() => setShowProductsDropdown(false)}
+                        className={`relative px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-200 ease-in-out ${
+                          isActive
+                            ? "text-[#FFEDAB] bg-[#FFEDAB]/20"
+                            : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/20"
+                        }`}
+                      >
+                        <Icon size={16} />
+                        {item.name}
+                        {isActive && (
+                          <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full"></div>
+                        )}
+                      </button>
+                      
+                      {/* Dropdown Menu */}
+                      <div
+                        className={`absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 transition-all duration-200 ${
+                          showProductsDropdown ? "opacity-100 visible" : "opacity-0 invisible"
+                        }`}
+                        onMouseEnter={() => setShowProductsDropdown(true)}
+                        onMouseLeave={() => setShowProductsDropdown(false)}
+                      >
+                        {item.dropdown.map((dropdownItem) => (
+                          <button
+                            key={dropdownItem.id}
+                            onClick={() => handleProductCategoryClick(dropdownItem.id)}
+                            className="w-full text-left px-4 py-3 text-gray-700 hover:bg-gray-50 hover:text-[#63171b] transition-colors duration-200 first:rounded-t-lg last:rounded-b-lg"
+                          >
+                            {dropdownItem.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                }
+                
                 return (
                   <button
                     key={item.name}
@@ -110,7 +180,7 @@ const Navigation = () => {
             </div>
           </div>
 
-          {/* Mobile menu toggle */}
+          {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               onClick={toggleMobileMenu}
@@ -134,6 +204,37 @@ const Navigation = () => {
           {navigationItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeLink === item.name;
+            
+            if (item.dropdown) {
+              return (
+                <div key={item.name}>
+                  <button
+                    onClick={() => handleLinkClick(item.name, item.href)}
+                    className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-200 ease-in-out flex items-center gap-3 ${
+                      isActive
+                        ? "text-[#FFEDAB] bg-[#FFEDAB]/10 border-l-4 border-[#FFEDAB]"
+                        : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10"
+                    }`}
+                  >
+                    <Icon size={18} />
+                    {item.name}
+                  </button>
+                  {/* Mobile dropdown items */}
+                  <div className="ml-6 mt-1 space-y-1">
+                    {item.dropdown.map((dropdownItem) => (
+                      <button
+                        key={dropdownItem.id}
+                        onClick={() => handleProductCategoryClick(dropdownItem.id)}
+                        className="w-full text-left px-3 py-2 text-sm text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10 rounded-md transition-all duration-200"
+                      >
+                        • {dropdownItem.name}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              );
+            }
+            
             return (
               <button
                 key={item.name}
@@ -152,7 +253,7 @@ const Navigation = () => {
         </div>
       </div>
     </nav>
-  );
-};
+  )
+}
 
-export default Navigation;
+export default Navigation
