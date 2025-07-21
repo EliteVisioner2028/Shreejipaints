@@ -1,7 +1,5 @@
-"use client"
-
 import { useState, useEffect, useRef } from "react"
-import { Download, Star, Shield, Award, ChevronDown, X, ArrowLeft, HelpCircle, MousePointer } from "lucide-react"
+import { Download, Star, Shield, Award, ChevronDown, X, ArrowLeft, HelpCircle, MousePointer } from 'lucide-react'
 import { productCategories, productsData, pdfFiles } from "../../data/productsData"
 
 // Mapping string icon names to Lucide React components
@@ -320,7 +318,7 @@ export default function ProductSection({
     return () => {
       window.removeEventListener("selectProductCategory", handleCategorySelection)
     }
-  })
+  }, [])
 
   const handleMainCategoryClick = (categoryId) => {
     setActiveMainCategoryId(categoryId)

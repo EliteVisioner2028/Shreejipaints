@@ -1,4 +1,4 @@
-"use client"; // Keep this directive for client-side functionality
+
 import { useEffect, useState } from "react";
 import Confetti from "react-confetti";
 import { useWindowSize } from "@react-hook/window-size";
