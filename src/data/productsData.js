@@ -113,7 +113,7 @@ import Rebacoat from "../assets/ProductImages/Rebacoat.webp";
 //GI coating
 import ClearCoat from "../assets/ProductImages/ClearCoat.webp";
 import EpoxyPrimerAndEpoxyTopCoat from "../assets/ProductImages/EpoxyPrimer&EpoxyTopCoat.webp";
-import ThermosettingAcrylicPaint from "../assets/ProductImages/ThermosettingAcrylicPaint.webp";
+import ThermosettingAcrylicPaint from "../assets/ProductImages/ThermosettingAcrylicpaint.webp";
 import CEDElectrocoat from "../assets/ProductImages/CEDElectrocoat.webp";
 
 // ==============================
