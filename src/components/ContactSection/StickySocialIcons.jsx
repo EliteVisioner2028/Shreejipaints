@@ -11,7 +11,7 @@ const StickySocialIcons = () => {
   const [isOpen, setIsOpen] = useState(false)
 
   const socialLinks = [
-    { icon: Whatsapp, href: "https://wa.me/qr/MFXB7A5DFHKUO1 ", label: "WhatsApp" },
+    { icon: Whatsapp, href: "https://wa.me/qr/MFXB7A5DFHKUO1", label: "WhatsApp" },
     { icon: Instagram, href: "https://www.instagram.com/shreeji_paints_anandcity?igsh=MTFiNnpwemg2NGo1eQ==", label: "Instagram" },
     { icon: Facebook, href: "https://www.facebook.com/share/1HfGMVKV6A/", label: "Facebook" },
   ]
@@ -30,7 +30,7 @@ const StickySocialIcons = () => {
             href={link.href}
             target="_blank"
             rel="noopener noreferrer"
-            className="h-12 w-12 border-2 border-black rounded-full shadow-md hover:scale-110 transition-transform duration-300 flex items-center justify-center "
+            className="h-12 w-12 border-2 border-black rounded-full shadow-md hover:scale-110 transition-transform duration-300 flex items-center justify-center bg-white"
             aria-label={link.label}
             style={{ transitionDelay: `${index * 50}ms` }}
           >
@@ -43,14 +43,30 @@ const StickySocialIcons = () => {
         ))}
       </div>
 
-      {/* Toggle Button */}
+      {/* Toggle Button with bounce */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="p-3 bg-[#D2042D] text-white rounded-full shadow-xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#D2042D] focus:ring-offset-2"
+        className="p-3 bg-[#D2042D] text-white rounded-full shadow-xl hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-[#D2042D] focus:ring-offset-2 animate-[bounce-slow_3s_infinite]"
         aria-label="Toggle social media links"
       >
         <Share2 className="h-6 w-6" />
       </button>
+
+      {/* Custom animation via style tag */}
+      <style jsx>{`
+        @keyframes bounce-slow {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-6px);
+          }
+        }
+
+        .animate-[bounce-slow_3s_infinite] {
+          animation: bounce-slow 3s infinite;
+        }
+      `}</style>
     </div>
   )
 }
