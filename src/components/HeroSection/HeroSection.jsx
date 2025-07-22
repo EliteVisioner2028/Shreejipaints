@@ -82,7 +82,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
           <div className="bg-[#E55D4A] rounded-full w-4 h-4 md:w-12 md:h-12"></div>
           <div className="bg-[#6C4AB6] rounded-full w-3 h-3 md:w-10 md:h-10"></div>
         </div>
-        <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end md:bottom-10 md:right-10">
+        <div className="absolute bottom-4 right-4 flex flex-col gap-2 items-end md:bottom-10 md:right-8">
           <div className="bg-[#3CA673] rounded-full w-4 h-4 md:w-14 md:h-14"></div>
           <div className="bg-[#309cf4] rounded-full w-3 h-3 md:w-10 md:h-10"></div>
         </div>

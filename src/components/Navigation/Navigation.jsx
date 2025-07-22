@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react"
 
 import {
+  House,
   Menu,
   X,
   Home,
@@ -187,12 +188,13 @@ const Navigation = () => {
         { name: "Industrial Paints", id: "industrial-paints" },
       ],
     },
+     { name: "Projects", icon: House , href: "#projects" },
     { name: "Contact", icon: Mail, href: "#contact" },
   ]
 
   // Split navigation items for desktop layout
-  const leftNavItems = navigationItems.slice(0, 2) // Home, About
-  const rightNavItems = navigationItems.slice(2) // Services, Products, Contact
+  const leftNavItems = navigationItems.slice(0, 3) // Home, About
+  const rightNavItems = navigationItems.slice(3) // Services, Products, Contact
 
   // Handle smooth scrolling
   const handleLinkClick = (linkName, href) => {
