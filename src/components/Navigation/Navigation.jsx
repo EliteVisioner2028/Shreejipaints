@@ -10,9 +10,9 @@ import {
   Users,
   Mail,
   Package,
-  GalleryThumbnailsIcon as Gallery,
   ChevronLeft,
   ChevronRight,
+  Image
 } from "lucide-react"
 import AntiDust from "../../assets/Images/AntiDustt.png" // Assuming this path is correct for your logo image
 import Dampstop from "../../assets/Images/Dampstop.png"
@@ -417,7 +417,7 @@ const Navigation = () => {
             className="inline-flex items-center justify-center p-2 rounded-md text-[#FFEDAB] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#75070C] transition-colors duration-200"
             aria-label="Open gallery"
           >
-            <Gallery size={24} />
+            <Image size={24} />
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { Phone, Mail, MapPin, Clock} from "lucide-react";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 
 const ContactSection = () => {
   const contactInfo = [
@@ -52,15 +52,14 @@ const ContactSection = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <div className="text-center mb-12 font-serif">
-  <h2 className="text-3xl md:text-4xl font-bold text-[#4A1D0E] mb-4 tracking-tight">
-    Get In Touch
-  </h2>
-  <p className="text-lg md:text-xl text-[#3f1e00] font-semibold max-w-3xl mx-auto leading-relaxed tracking-wide">
-    Ready to transform your space with premium paints? We’re here to help you
-    choose the perfect colors and products for your project.
-  </p>
-</div>
-
+          <h2 className="text-3xl md:text-4xl font-bold text-[#4A1D0E] mb-4 tracking-tight">
+            Get In Touch
+          </h2>
+          <p className="text-lg md:text-xl text-[#3f1e00] font-semibold max-w-3xl mx-auto leading-relaxed tracking-wide">
+            Ready to transform your space with premium paints? We’re here to
+            help you choose the perfect colors and products for your project.
+          </p>
+        </div>
 
         <div className=" gap-8 items-start">
           {/* Contact Info - Takes 3 columns */}
