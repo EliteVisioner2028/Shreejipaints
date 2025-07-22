@@ -5,7 +5,7 @@ const ContactSection = () => {
     {
       icon: Phone,
       title: "Call Us",
-      details: ["+91 9537400529"],
+      details: ["+91 9537400529 (Nimesh Patel)"],
     },
     {
       icon: Mail,
