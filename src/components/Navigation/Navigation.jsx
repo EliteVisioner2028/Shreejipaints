@@ -59,7 +59,7 @@ const galleryImages = [
   { src: Mast4, alt: "Mast4"},
   { src: Mast5, alt: "Mast5"},
   { src: Mast6, alt: "Mast6"},
-  { src: Mast6, alt: "Mast7"}
+  { src: Mast7, alt: "Mast7"}
 ]
 
 const GalleryModal = ({ images, onClose }) => {
