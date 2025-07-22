@@ -91,7 +91,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
       {/* Main Content - Sits on top of everything else */}
       <div className="container mx-auto px-4 text-center relative z-20 py-4">
         <h1
-          className={`text-2xl sm:text-5xl md:text-3xl lg:text-4xl font-bold text-[#75070C] mb-2 md:mb-3 transition-all duration-500 delay-0 text-center break-words leading-tight px-2 ${
+          className={`text-2xl sm:text-5xl md:text-3xl lg:text-4xl font-bold text-[#75070C] mb-1 md:mt-10 transition-all duration-500 delay-0 text-center break-words leading-tight px-2 ${
             isVisible ? "animate-fade-in-up" : "opacity-0 translate-y-8"
           }`}
           style={{
