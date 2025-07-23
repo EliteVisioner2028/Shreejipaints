@@ -301,7 +301,7 @@ const Navigation = () => {
         observerRef.current.disconnect()
       }
     }
-  }, [isProgrammaticScrolling, activeLink])
+  })
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)

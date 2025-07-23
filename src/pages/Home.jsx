@@ -6,6 +6,7 @@ import AboutSection from "../components/AboutSection/AboutSection"
 import ProductSection from "../components/ProductSection/ProductSection" // Corrected import path and component name
 import ContactSection from "../components/ContactSection/ContactSection"
 import ServiceSection from "../components/HeroSection/ServiceSection"
+import ProjectsSection from "../components/ProjectSection/ProjectSection" // New
 
 const Home = () => {
   const [activeMainCategoryId, setActiveMainCategoryId] = useState(null)
@@ -52,6 +53,7 @@ const Home = () => {
           onCategoryChange={handleCategoryChange} // Pass down for internal clicks to update URL/state
         />
       </div>
+      <ProjectsSection />
       <ContactSection />
     </>
   )

@@ -325,7 +325,7 @@ export default function ProductSection({
     return () => {
       window.removeEventListener("selectProductCategory", handleCategorySelection)
     }
-  }, [])
+  })
 
   const handleMainCategoryClick = (categoryId) => {
     setActiveMainCategoryId(categoryId)
@@ -417,15 +417,7 @@ export default function ProductSection({
         backgroundImage: `url('https://images.pexels.com/photos/20899958/pexels-photo-20899958.jpeg')`,
       }}
     >
-      <div className="absolute top-0 left-0 w-full h-1 md:h-2 z-10 flex">
-        <div className="flex-1 bg-[#D72638]" /> {/* Crimson Red */}
-        <div className="flex-1 bg-[#f38d19]" /> {/* Warm Orange */}
-        <div className="flex-1 bg-[#000263]" /> {/* Bold Yellow */}
-        <div className="flex-1 bg-[#3DBE29]" /> {/* Fresh Green */}
-        <div className="flex-1 bg-[#1B98E0]" /> {/* Bright Sky Blue */}
-        <div className="flex-1 bg-[#9B59B6]" /> {/* Royal Purple */}
-        <div className="flex-1 bg-[#88022f]" /> {/* Rose Pink */}
-      </div>
+
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.05),transparent)] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">

@@ -38,6 +38,15 @@ const ContactSection = () => {
         backgroundPosition: "center center",
       }}
     >
+       <div className="absolute top-0 left-0 w-full h-1 md:h-2 z-10 flex">
+            <div className="flex-1 bg-[#D72638]" /> {/* Crimson Red */}
+            <div className="flex-1 bg-[#f38d19]" /> {/* Warm Orange */}
+            <div className="flex-1 bg-[#000263]" /> {/* Bold Yellow */}
+            <div className="flex-1 bg-[#3DBE29]" /> {/* Fresh Green */}
+            <div className="flex-1 bg-[#1B98E0]" /> {/* Bright Sky Blue */}
+            <div className="flex-1 bg-[#9B59B6]" /> {/* Royal Purple */}
+            <div className="flex-1 bg-[#88022f]" /> {/* Rose Pink */}
+          </div>
       {/* Overlay */}
       <div className="absolute inset-0 bg-white/10 pointer-events-none z-0" />
 
@@ -98,14 +107,14 @@ const ContactSection = () => {
               <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
                 <a
                   href="tel:9537400529"
-                  className="flex items-center justify-center space-x-2 p-3 bg-[#D2042D] text-white rounded-lg hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
+                  className="flex items-center justify-center space-x-2 p-3 bg-[#8B0000] text-white rounded-lg hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
                 >
                   <Phone className="h-4 w-4" />
                   <span className="font-medium text-sm">Call Now</span>
                 </a>
                 <a
                   href="mailto:shreejipaintshw@gmail.com"
-                  className="flex items-center justify-center space-x-2 p-3 bg-[#D2042D] text-white rounded-lg hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
+                  className="flex items-center justify-center space-x-2 p-3 bg-[#8B0000] text-white rounded-lg hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
                 >
                   <Mail className="h-4 w-4" />
                   <span className="font-medium text-sm">Send Email</span>
@@ -114,7 +123,7 @@ const ContactSection = () => {
                   href="https://www.google.com/maps/dir//G-9,+RADHA+ARCADE,+Lambhvel+Rd,+Ganesh+Colony,+Anand,+Gujarat+388001/"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center space-x-2 p-3 bg-[#D2042D] text-white rounded-lg hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
+                  className="flex items-center justify-center space-x-2 p-3 bg-[#8B0000] text-white rounded-lg hover:scale-105 transition-all duration-200 shadow-sm hover:shadow-md"
                 >
                   <MapPin className="h-4 w-4" />
                   <span className="font-medium text-sm">Directions</span>
