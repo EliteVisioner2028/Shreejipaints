@@ -3,6 +3,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Project1 from "../../assets/Images/Project1.jpg";
 import Project2 from "../../assets/Images/Project2.jpg";
 import Project3 from "../../assets/Images/Project3.jpg";
+import School from "../../assets/Images/School.jpg";
 
 const projectsData = [
   {
@@ -22,6 +23,12 @@ const projectsData = [
     imageUrl: Project3,
     description:
       "An urban apartment development by LR Realty, combining smart architecture with aesthetic finesse — Rudveda Apartments deliver practical, elegant homes designed for modern city living. Walls and exteriors finished using premium products from Shreeji Paints and Hardware.",
+  },
+  {
+    name: "Govt. School Upliftment",
+    imageUrl: School,
+    description:
+      "A rejuvenation project focused on creating a brighter, more inspiring learning environment. The entire school was repainted using durable and child-safe products by Shreeji Paints and Hardware — adding color, life, and motivation to every classroom.",
   },
 ];
 
@@ -109,16 +116,17 @@ const ProjectsSection = () => {
       >
         <h2
           style={{
-            fontSize: "3rem",
+            fontSize: "clamp(1.8rem, 5vw, 3rem)", // Scales with screen size
             fontWeight: "800",
             color: "#D35400",
             textAlign: "center",
             marginBottom: "2.5rem",
             fontFamily: "serif",
             letterSpacing: "0.5px",
+            padding: "0 1rem", // Optional: side padding for narrow screens
           }}
         >
-          Projects
+          "Paint Supplied, Perfection Applied"
         </h2>
 
         <div style={{ position: "relative" }}>
@@ -285,8 +293,6 @@ const ProjectsSection = () => {
       </div>
     </section>
   );
-  
 };
-
 
 export default ProjectsSection;
