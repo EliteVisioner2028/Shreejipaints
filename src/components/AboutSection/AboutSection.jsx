@@ -19,6 +19,8 @@ import {
   Sparkles,
   ChevronDown,
 } from "lucide-react";
+
+import GoldCard from "../../assets/Images/GoldCard.jpg";
 const AboutSection = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeColorTheme, setActiveColorTheme] = useState(0);
@@ -419,32 +421,62 @@ const AboutSection = () => {
             isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
           }`}
         >
-          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-8 md:mb-12 flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0">
-            <Award className="h-6 w-6 md:h-8 md:w-8 text-[#8A3324] md:mr-4" />
+          <h3 className="text-2xl md:text-3xl font-bold text-gray-900 text-center mb-8 md:mb-12 flex flex-col md:flex-row items-center justify-center space-y-2 md:space-y-0 px-4">
+            <Award className="h-6 w-6 md:h-8 md:w-8 text-orange-600 md:mr-4" />
             <span>Our Golden Credentials</span>
           </h3>
 
-          <div className="flex justify-center items-center flex-wrap gap-6">
+          <div className="flex flex-col gap-8 px-4 max-w-5xl mx-auto">
             {achievements.map((achievement, index) => (
               <div
                 key={`achievement-${index}`}
-                className="w-[600px] relative group bg-white/95 backdrop-blur-md rounded-2xl md:rounded-3xl p-8 md:p-10 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-105 border-2 border-yellow-400"
+                className="w-full group bg-gradient-to-br from-orange-900 via-orange-700 to-orange-500 rounded-3xl shadow-xl p-1"
               >
-                {/* Gold Card Image */}
-                <div className="w-full h-40 md:h-56 lg:h-64 mb-6 overflow-hidden rounded-xl shadow-md border-4 border-yellow-300">
-                  <img
-                    src={achievement.image}
-                    alt={achievement.title}
-                    className="w-full h-full object-contain"
-                  />
-                  {/* Optional gradient overlay for premium glow effect */}
-                  <div className="absolute inset-0 rounded-xl bg-gradient-to-br from-yellow-200/10 to-yellow-500/10 pointer-events-none" />
-                </div>
+                <div className="flex flex-col md:flex-row bg-white/95 backdrop-blur-lg rounded-3xl overflow-hidden border border-gray-200 h-full">
+                  {/* Left: Large Image */}
+                  <div className="md:w-[60%] w-full p-4 flex justify-center items-center">
+                    <div className="relative w-full h-full">
+                      <img
+                        src={GoldCard}
+                        alt={achievement.title}
+                        className="w-full h-auto object-contain rounded-xl border-4 border-orange-200 shadow-lg max-h-[500px]"
+                      />
+                      <div className="absolute top-[-9px] right-[-8px] px-3 py-1 text-xs font-bold text-white bg-gradient-to-r from-orange-500 to-orange-600 rounded-full shadow">
+                        TRUSTED
+                      </div>
+                      <div className="absolute bottom-2 left-2 w-8 h-8 bg-gradient-to-br from-orange-800 to-orange-700 rounded-full flex items-center justify-center border-2 border-white text-white font-bold text-xs">
+                        ✓
+                      </div>
+                    </div>
+                  </div>
 
-                {/* Title */}
-                <h4 className="text-2xl md:text-3xl font-extrabold mb-4 text-[#B8860B] tracking-wide text-center">
-                  {achievement.title}
-                </h4>
+                  {/* Right: Text */}
+                  <div className="md:w-[40%] w-full p-6 md:p-8 flex flex-col justify-center">
+                    <div className="text-center md:text-left">
+                      <div className="flex justify-center md:justify-start mb-3">
+                        <div className="w-12 h-12 bg-gradient-to-br from-orange-500 to-orange-700 rounded-full flex items-center justify-center border-2 border-orange-200 shadow-md">
+                          <Award className="h-5 w-5 text-white" />
+                        </div>
+                      </div>
+                      <h4 className="text-xl md:text-2xl font-bold text-gray-800 mb-2">
+                        {achievement.title}
+                      </h4>
+                      <div className="w-16 h-1 bg-gradient-to-r from-orange-400 to-orange-600 mb-3 mx-auto md:mx-0 rounded-full"></div>
+                      <p className="text-sm md:text-base text-gray-600 font-medium mb-4">
+                        Certified Excellence in Industry Standards
+                      </p>
+                      <div className="flex justify-center md:justify-start items-center space-x-3 mb-6">
+                        <span className="px-3 py-2 rounded-full text-xs font-semibold text-white bg-gradient-to-r from-orange-500 to-orange-600 shadow-md">
+                          Shreeji Paints & Hardware
+                        </span>
+                      </div>
+                      <p className="text-xs text-gray-500 italic">
+                        "Verified proof of our commitment to excellence and
+                        industry-leading standards"
+                      </p>
+                    </div>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
