@@ -4,6 +4,7 @@ import Project1 from "../../assets/Images/Project1.jpg";
 import Project2 from "../../assets/Images/Project2.jpg";
 import Project3 from "../../assets/Images/Project3.jpg";
 import School from "../../assets/Images/School.jpg";
+import { Paintbrush } from "lucide-react"; // Add this at the top
 
 const projectsData = [
   {
@@ -114,6 +115,18 @@ const ProjectsSection = () => {
           zIndex: 1,
         }}
       >
+        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+          <Paintbrush
+            size={48}
+            color="#D35400"
+            style={{
+              marginBottom: "0.5rem",
+              display: "block",
+              margin: "0 auto",
+            }}
+          />
+        </div>
+
         <h2
           style={{
             fontSize: "clamp(1.8rem, 5vw, 3rem)", // Scales with screen size
