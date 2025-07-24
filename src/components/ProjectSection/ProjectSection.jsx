@@ -116,7 +116,7 @@ const ProjectsSection = () => {
     <section
       id="projects"
       style={{
-        padding: "2rem 6rem",
+        padding: "6rem 1rem",
         backgroundImage:
           "url('https://images.pexels.com/photos/8941369/pexels-photo-8941369.jpeg')",
         backgroundSize: "cover",
@@ -130,6 +130,7 @@ const ProjectsSection = () => {
       <div
         style={{
           maxWidth: "1280px",
+          margin: "0 auto",
           position: "relative",
           zIndex: 1,
           textAlign: "center",
@@ -139,7 +140,7 @@ const ProjectsSection = () => {
           style={{
             display: "flex",
             justifyContent: "center",
-            marginBottom: "0.5rem",
+            marginBottom: "2rem",
           }}
         >
           <Paintbrush
