@@ -7,17 +7,14 @@ import React, {
 } from "react";
 import {
   Award,
-  Shield,
   Palette,
   Home,
   CheckCircle,
-  Star,
   Wrench,
   Car,
   Building,
   Brush,
   Sparkles,
-  ChevronDown,
 } from "lucide-react";
 
 import GoldCard from "../../assets/Images/GoldCard.jpg";
