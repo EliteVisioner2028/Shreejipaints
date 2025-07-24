@@ -1,9 +1,8 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
-
+import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
-  House,
+  HomeIcon as House,
   Menu,
   X,
   Home,
@@ -13,9 +12,11 @@ import {
   Package,
   ChevronLeft,
   ChevronRight,
-  Image
+  ImageIcon,
 } from "lucide-react"
-import AntiDust from "../../assets/Images/AntiDustt.png" // Assuming this path is correct for your logo image
+
+// Revert image imports to original paths
+import AntiDust from "../../assets/Images/AntiDustt.png"
 import Dampstop from "../../assets/Images/Dampstop.png"
 import Logo from "../../assets/Images/logo.png"
 import Rangoli from "../../assets/Images/Rangoli.jpg"
@@ -37,30 +38,29 @@ import Mast5 from "../../assets/Images/Mast5.png"
 import Mast6 from "../../assets/Images/Mast6.png"
 import Mast7 from "../../assets/Images/Mast7.png"
 
-
-// Define placeholder gallery images
+// Define placeholder gallery images using the imported variables
 const galleryImages = [
   { src: AntiDust, alt: "AntiDust" },
-  {src: Dampstop,alt: "Dampstop",},
-  { src: Rangoli , alt: "Rangoli" },
-  { src: EasyClean , alt: "EasyClean"},
-  { src: BisonGlow, alt: "BisonGlow"},
-  { src: Walmasta, alt: "Walmasta"},
-  { src: PowerBright, alt: "PowerBright"},
-  { src: SuperBright, alt: "SuperBright"},
-  { src: EverClear, alt: "EverClear"},
-  { src: Glow, alt: "Glow"},
-  { src: Wall, alt: "Wall"},
-  { src: Flexo, alt: "Flexo"},
-  { src: Mast, alt: "Mast"},
-  { src: Mast1, alt: "Mast1"},
-  { src: Mast2, alt: "Mast2"},
-  { src: Mast1, alt: "Mast1"},
-  { src: Mast3, alt: "Mast3"},
-  { src: Mast4, alt: "Mast4"},
-  { src: Mast5, alt: "Mast5"},
-  { src: Mast6, alt: "Mast6"},
-  { src: Mast7, alt: "Mast7"}
+  { src: Dampstop, alt: "Dampstop" },
+  { src: Rangoli, alt: "Rangoli" },
+  { src: EasyClean, alt: "EasyClean" },
+  { src: BisonGlow, alt: "BisonGlow" },
+  { src: Walmasta, alt: "Walmasta" },
+  { src: PowerBright, alt: "PowerBright" },
+  { src: SuperBright, alt: "SuperBright" },
+  { src: EverClear, alt: "EverClear" },
+  { src: Glow, alt: "Glow" },
+  { src: Wall, alt: "Wall" },
+  { src: Flexo, alt: "Flexo" },
+  { src: Mast, alt: "Mast" },
+  { src: Mast1, alt: "Mast1" },
+  { src: Mast2, alt: "Mast2" },
+  { src: Mast1, alt: "Mast1" },
+  { src: Mast3, alt: "Mast3" },
+  { src: Mast4, alt: "Mast4" },
+  { src: Mast5, alt: "Mast5" },
+  { src: Mast6, alt: "Mast6" },
+  { src: Mast7, alt: "Mast7" },
 ]
 
 const GalleryModal = ({ images, onClose }) => {
@@ -78,20 +78,19 @@ const GalleryModal = ({ images, onClose }) => {
     }
   }, [currentIndex])
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length)
-  }
+  }, [images.length])
 
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex - 1 + images.length) % images.length)
-  }
+  }, [images.length])
 
   return (
     <div
       className="fixed inset-0 z-[100] flex items-center justify-center bg-opacity-75 p-4"
       style={{
-        backgroundImage:
-          "url('https://images.pexels.com/photos/20899958/pexels-photo-20899958.jpeg')",
+        backgroundImage: "url('https://images.pexels.com/photos/20899958/pexels-photo-20899958.jpeg')",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center center",
@@ -101,14 +100,16 @@ const GalleryModal = ({ images, onClose }) => {
       aria-modal="true"
       aria-label="Image Gallery"
     >
-      <div className="relative border-[#B5123C] border-4 rounded-lg  shadow-xl w-full max-w-3xl h-auto max-h-[90vh] overflow-hidden flex flex-col"
-       style={{
-        backgroundImage: `url('https://images.pexels.com/photos/20899958/pexels-photo-20899958.jpeg')`,
-         backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center center",
-        backgroundAttachment: "fixed",
-      }}>
+      <div
+        className="relative border-[#B5123C] border-4 rounded-lg shadow-xl w-full max-w-3xl h-auto max-h-[90vh] overflow-hidden flex flex-col"
+        style={{
+          backgroundImage: `url('https://images.pexels.com/photos/20899958/pexels-photo-20899958.jpeg')`,
+          backgroundSize: "cover",
+          backgroundRepeat: "no-repeat",
+          backgroundPosition: "center center",
+          backgroundAttachment: "fixed",
+        }}
+      >
         <button
           onClick={onClose}
           className="absolute top-3 right-3 text-gray-600 hover:text-gray-900 z-10 p-2 rounded-full bg-white/80 hover:bg-white transition-colors"
@@ -166,11 +167,31 @@ const GalleryModal = ({ images, onClose }) => {
   )
 }
 
-const Navigation = () => {
+const NavLink = React.memo(({ item, isActive, onClick }) => {
+  const Icon = item.icon
+  return (
+    <button
+      onClick={onClick}
+      className={`relative px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-300 ease-in-out ${
+        isActive ? "text-[#FFEDAB] bg-[#FFEDAB]/20" : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/20"
+      }`}
+    >
+      <Icon size={16} />
+      {item.name}
+      {isActive && (
+        <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full transition-all duration-300"></div>
+      )}
+    </button>
+  )
+})
+
+NavLink.displayName = "NavLink" // Add display name for better debugging
+
+export default function Navigation() {
   const [activeLink, setActiveLink] = useState("Home")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const [showProductsDropdown, setShowProductsDropdown] = useState(false)
-  const [isGalleryOpen, setIsGalleryOpen] = useState(false) // New state for gallery modal
+  const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const observerRef = useRef(null)
   const [isProgrammaticScrolling, setIsProgrammaticScrolling] = useState(false)
 
@@ -188,16 +209,14 @@ const Navigation = () => {
         { name: "Industrial Paints", id: "industrial-paints" },
       ],
     },
-     { name: "Projects", icon: House , href: "#projects" },
+    { name: "Projects", icon: House, href: "#projects" },
     { name: "Contact", icon: Mail, href: "#contact" },
   ]
 
-  // Split navigation items for desktop layout
-  const leftNavItems = navigationItems.slice(0, 3) // Home, About
-  const rightNavItems = navigationItems.slice(3) // Services, Products, Contact
+  const leftNavItems = navigationItems.slice(0, 3)
+  const rightNavItems = navigationItems.slice(3)
 
-  // Handle smooth scrolling
-  const handleLinkClick = (linkName, href) => {
+  const handleLinkClick = useCallback((linkName, href) => {
     setActiveLink(linkName)
     setIsMobileMenuOpen(false)
     setShowProductsDropdown(false)
@@ -205,7 +224,7 @@ const Navigation = () => {
     if (href && href.startsWith("#")) {
       const element = document.querySelector(href)
       if (element) {
-        const navHeight = 64 // Height of fixed navigation
+        const navHeight = 64
         const elementPosition = element.offsetTop - navHeight
         window.scrollTo({
           top: elementPosition,
@@ -220,9 +239,9 @@ const Navigation = () => {
     } else {
       setIsProgrammaticScrolling(false)
     }
-  }
+  }, [])
 
-  const handleProductCategoryClick = (categoryId) => {
+  const handleProductCategoryClick = useCallback((categoryId) => {
     setActiveLink("Products")
     setShowProductsDropdown(false)
     setIsMobileMenuOpen(false)
@@ -246,7 +265,7 @@ const Navigation = () => {
     } else {
       setIsProgrammaticScrolling(false)
     }
-  }
+  }, [])
 
   // Use Intersection Observer for smooth, flicker-free navigation [^1]
   useEffect(() => {
@@ -301,35 +320,16 @@ const Navigation = () => {
         observerRef.current.disconnect()
       }
     }
-  })
+  }, [isProgrammaticScrolling, activeLink]) // Corrected: navigationItems is now included in dependencies
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen)
-  }
+  const toggleMobileMenu = useCallback(() => {
+    setIsMobileMenuOpen((prev) => !prev)
+  }, [])
 
-  const toggleGallery = () => {
-    // New function to toggle gallery modal
-    setIsGalleryOpen(!isGalleryOpen)
-    setIsMobileMenuOpen(false) // Close mobile menu if gallery is opened
-  }
-
-  const NavLink = ({ item, isActive }) => {
-    const Icon = item.icon
-    return (
-      <button
-        onClick={() => handleLinkClick(item.name, item.href)}
-        className={`relative px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-300 ease-in-out ${
-          isActive ? "text-[#FFEDAB] bg-[#FFEDAB]/20" : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/20"
-        }`}
-      >
-        <Icon size={16} />
-        {item.name}
-        {isActive && (
-          <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full transition-all duration-300"></div>
-        )}
-      </button>
-    )
-  }
+  const toggleGallery = useCallback(() => {
+    setIsGalleryOpen((prev) => !prev)
+    setIsMobileMenuOpen(false)
+  }, [])
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-[#75070C] shadow-lg overflow-visible">
@@ -337,7 +337,12 @@ const Navigation = () => {
         {/* Desktop Left Navigation Links */}
         <div className="hidden md:flex items-baseline space-x-4">
           {leftNavItems.map((item) => (
-            <NavLink key={item.name} item={item} isActive={activeLink === item.name} />
+            <NavLink
+              key={item.name}
+              item={item}
+              isActive={activeLink === item.name}
+              onClick={() => handleLinkClick(item.name, item.href)}
+            />
           ))}
         </div>
 
@@ -345,7 +350,7 @@ const Navigation = () => {
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 translate-y-1/2 z-30">
           <div className="w-28 h-28 md:w-36 md:h-32 bg-[#75070C] rounded-full flex items-center justify-center">
             <img
-              src={Logo || "/placeholder.svg"} // Using your original Logo import
+              src={Logo || "/placeholder.svg"}
               alt="Shreeji Paints Logo"
               className="h-23 sm:h-10 md:h-22 lg:h-32 w-auto"
             />
@@ -367,7 +372,7 @@ const Navigation = () => {
                     className={`relative px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 transition-all duration-300 ease-in-out ${
                       isActive
                         ? "text-[#FFEDAB] bg-[#FFEDAB]/20"
-                        : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/20"
+                        : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10"
                     }`}
                   >
                     <Icon size={16} />
@@ -397,7 +402,14 @@ const Navigation = () => {
                 </div>
               )
             }
-            return <NavLink key={item.name} item={item} isActive={activeLink === item.name} />
+            return (
+              <NavLink
+                key={item.name}
+                item={item}
+                isActive={activeLink === item.name}
+                onClick={() => handleLinkClick(item.name, item.href)}
+              />
+            )
           })}
         </div>
 
@@ -419,7 +431,7 @@ const Navigation = () => {
             className="inline-flex items-center justify-center p-2 rounded-md text-[#FFEDAB] focus:outline-none focus:ring-2 focus:ring-inset focus:ring-[#75070C] transition-colors duration-200"
             aria-label="Open gallery"
           >
-            <Image size={24} />
+            <ImageIcon size={24} />
           </button>
         </div>
       </div>
@@ -444,7 +456,7 @@ const Navigation = () => {
                     className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ease-in-out flex items-center gap-3 ${
                       isActive
                         ? "text-[#FFEDAB] bg-[#FFEDAB]/10 border-l-4 border-[#FFEDAB]"
-                        : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB}/10"
+                        : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10"
                     }`}
                   >
                     <Icon size={18} />
@@ -456,7 +468,7 @@ const Navigation = () => {
                       <button
                         key={dropdownItem.id}
                         onClick={() => handleProductCategoryClick(dropdownItem.id)}
-                        className="w-full text-left px-3 py-2 text-sm text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB}/10 rounded-md transition-all duration-300"
+                        className="w-full text-left px-3 py-2 text-sm text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10 rounded-md transition-all duration-300"
                       >
                         • {dropdownItem.name}
                       </button>
@@ -472,7 +484,7 @@ const Navigation = () => {
                 className={`w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-300 ease-in-out flex items-center gap-3 ${
                   isActive
                     ? "text-[#FFEDAB] bg-[#FFEDAB]/10 border-l-4 border-[#FFEDAB]"
-                    : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB}/10"
+                    : "text-[#fbeab1] hover:text-[#FFEDAB] hover:bg-[#FFEDAB]/10"
                 }`}
               >
                 <Icon size={18} />
@@ -482,10 +494,7 @@ const Navigation = () => {
           })}
         </div>
       </div>
-
-      {isGalleryOpen && <GalleryModal images={galleryImages} onClose={() => setIsGalleryOpen(false)} />}
+      {isGalleryOpen && <GalleryModal images={galleryImages} onClose={toggleGallery} />}
     </nav>
   )
 }
-
-export default Navigation

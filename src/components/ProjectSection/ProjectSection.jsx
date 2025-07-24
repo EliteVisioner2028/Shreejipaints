@@ -1,10 +1,12 @@
 import React, { useState, useEffect, useRef, useCallback } from "react";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, Paintbrush } from "lucide-react";
 import Project1 from "../../assets/Images/Project1.jpg";
 import Project2 from "../../assets/Images/Project2.jpg";
 import Project3 from "../../assets/Images/Project3.jpg";
+import Project4 from "../../assets/Images/Project4.jpg";
+import Project5 from "../../assets/Images/Project5.jpg";
+import Project6 from "../../assets/Images/Project6.jpg";
 import School from "../../assets/Images/School.jpg";
-import { Paintbrush } from "lucide-react"; // Add this at the top
 
 const projectsData = [
   {
@@ -14,16 +16,34 @@ const projectsData = [
       "Rudveda Life is a fully planned residential enclave set amidst serene natural surroundings, offering spacious layouts, modern amenities, and a peaceful lifestyle for families seeking refined living. Proudly painted by Shreeji Paints and Hardware, ensuring long-lasting beauty and durability.",
   },
   {
+    name: "Iscon Habitat",
+    imageUrl: Project4,
+    description:
+      "Iscon Habitat is a modern condominium complex in Gujarat featuring premium amenities and elegant living spaces. Painted by Shreeji Paints & Hardware.",
+  },
+  {
     name: "Sahajanand Hostel",
     imageUrl: Project2,
     description:
       "Sahajanand Hostel offers secure, well-managed accommodations for students and professionals — with a focus on comfort, convenience, and community. The property features high-quality finishes, painted by Shreeji Paints and Hardware.",
   },
   {
+    name: "Iscon Height",
+    imageUrl: Project5,
+    description:
+      "Iscon Heights blends architectural finesse with everyday comfort, featuring refined residences and curated amenities. All paint supplies sourced from Shreeji Paints & Hardware, ensuring a lasting finish and quality aesthetic.",
+  },
+  {
     name: "Rudveda Apartments",
     imageUrl: Project3,
     description:
       "An urban apartment development by LR Realty, combining smart architecture with aesthetic finesse — Rudveda Apartments deliver practical, elegant homes designed for modern city living. Walls and exteriors finished using premium products from Shreeji Paints and Hardware.",
+  },
+  {
+    name: "Pratham Bluets",
+    imageUrl: Project6,
+    description:
+      "Pratham Bluets is an award-winning residential project recognized by CNBC for excellence in design and execution. Its exceptional paint finishes are supported through high-quality materials supplied by Shreeji Paints & Hardware.",
   },
   {
     name: "Govt. School Upliftment",
@@ -96,9 +116,9 @@ const ProjectsSection = () => {
     <section
       id="projects"
       style={{
-        padding: "6rem 1rem",
+        padding: "2rem 6rem",
         backgroundImage:
-          "url('https://images.pexels.com/photos/8941369/pexels-photo-8941369.jpeg')", // Use a subtle background texture
+          "url('https://images.pexels.com/photos/8941369/pexels-photo-8941369.jpeg')",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -110,33 +130,35 @@ const ProjectsSection = () => {
       <div
         style={{
           maxWidth: "1280px",
-          margin: "0 auto",
           position: "relative",
           zIndex: 1,
+          textAlign: "center",
         }}
       >
-        <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginBottom: "0.5rem",
+          }}
+        >
           <Paintbrush
             size={48}
             color="#D35400"
-            style={{
-              marginBottom: "0.5rem",
-              display: "block",
-              margin: "0 auto",
-            }}
+            style={{ marginBottom: "0.5rem" }}
           />
         </div>
 
         <h2
           style={{
-            fontSize: "clamp(1.8rem, 5vw, 3rem)", // Scales with screen size
+            fontSize: "clamp(1.8rem, 5vw, 3rem)",
             fontWeight: "800",
             color: "#D35400",
             textAlign: "center",
-            marginBottom: "2.5rem",
+            marginBottom: "1rem",
             fontFamily: "serif",
             letterSpacing: "0.5px",
-            padding: "0 1rem", // Optional: side padding for narrow screens
+            padding: "0 1rem",
           }}
         >
           "Paint Supplied, Perfection Applied"
@@ -165,19 +187,11 @@ const ProjectsSection = () => {
                       ? "50%"
                       : "33.33%",
                   padding: "0 0.75rem",
-                  transition: "transform 0.5s ease, opacity 0.5s ease",
-                  transform:
-                    index >= currentIndex && index < currentIndex + itemsPerPage
-                      ? "scale(1)"
-                      : "scale(0.95)",
-                  opacity:
-                    index >= currentIndex && index < currentIndex + itemsPerPage
-                      ? 1
-                      : 0.6,
                 }}
               >
                 <div
                   style={{
+                    height: "100%",
                     backgroundColor: "#fff",
                     borderRadius: "1rem",
                     boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
@@ -185,29 +199,34 @@ const ProjectsSection = () => {
                     border: "1px solid #f0e0d0",
                     display: "flex",
                     flexDirection: "column",
-                    transition: "transform 0.3s ease",
-                    height: "100%",
                   }}
                 >
-                  <img
-                    src={project.imageUrl}
-                    alt={project.name}
+                  <div style={{ flex: "0 0 80%", height: "80%" }}>
+                    <img
+                      src={project.imageUrl}
+                      alt={project.name}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                        display: "block",
+                      }}
+                    />
+                  </div>
+                  <div
                     style={{
-                      width: "100%",
-                      height: "auto",
-                      objectFit: "cover",
-                      display: "block",
-                      borderTopLeftRadius: "1rem",
-                      borderTopRightRadius: "1rem",
+                      flex: "1 1 20%",
+                      padding: "1rem",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "flex-start",
                     }}
-                  />
-
-                  <div style={{ padding: "1.5rem", flexGrow: 1 }}>
+                  >
                     <h3
                       style={{
-                        fontSize: "1.25rem",
+                        fontSize: "1.1rem",
                         fontWeight: "600",
-                        marginBottom: "0.5rem",
+                        marginBottom: "0.4rem",
                         color: "#333",
                       }}
                     >
@@ -215,13 +234,15 @@ const ProjectsSection = () => {
                     </h3>
                     <p
                       style={{
-                        fontSize: "0.95rem",
+                        fontSize: "0.9rem",
                         color: "#666",
-                        lineHeight: "1.5",
+                        lineHeight: "1.4",
                         textAlign: "justify",
-                        textJustify: "inter-word",
-                        hyphens: "auto", // ✅ Hyphenates long words
-                        overflowWrap: "break-word", // Ensures it doesn't overflow
+                        overflow: "hidden",
+                        textOverflow: "ellipsis",
+                        display: "-webkit-box",
+                        WebkitLineClamp: 3,
+                        WebkitBoxOrient: "vertical",
                       }}
                     >
                       {project.description}
