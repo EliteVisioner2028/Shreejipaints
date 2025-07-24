@@ -1,35 +1,32 @@
-"use client" // Keep this directive for client-side functionality
-
-import React, { useEffect, useState } from "react"
-import Confetti from "react-confetti"
-import { useWindowSize } from "@react-hook/window-size"
-
-// Keep original image paths
-import bergerLogo from "../assets/Images/berger-paints-seeklogo.png"
-import birlaLogo from "../assets/Images/birla-opus-logo-v1.svg"
-import asianPaintsLogo from "../assets/Images/asian-paints-logo.png"
-import taralacLogo from "../assets/Images/taralac.png"
-
-import "./HeroSection.css" // For custom animations like 'fade-in-up'
+"use client"; // Keep this directive for client-side functionality
+import { useEffect, useState } from "react";
+import Confetti from "react-confetti";
+import { useWindowSize } from "@react-hook/window-size";
+import bergerLogo from "../../assets/Images/berger-paints-seeklogo.png"; // Adjust the path as needed
+import birlaLogo from "../../assets/Images/birla-opus-logo-v1.svg"; // Adjust the path as needed
+import asianPaintsLogo from "../../assets/Images/asian-paints-logo.png";
+import taralacLogo from "../../assets/Images/taralac.png";
+import "./HeroSection.css"; // For custom animations like 'fade-in-up'
 
 const HeroSection = ({ onGetInTouchClick }) => {
-  const [isVisible, setIsVisible] = useState(false)
-  const [showConfetti, setShowConfetti] = useState(true)
-  const [width, height] = useWindowSize()
+  const [isVisible, setIsVisible] = useState(false);
+  const [showConfetti, setShowConfetti] = useState(true);
+  const [width, height] = useWindowSize();
 
   useEffect(() => {
-    setIsVisible(true) // Make content visible immediately on mount
+    setIsVisible(true); // Make content visible immediately on mount
     // Confetti will show for 15 seconds, allowing it to fall completely
-    const timer = setTimeout(() => setShowConfetti(false), 15000)
-    return () => clearTimeout(timer)
-  }, [])
+    const timer = setTimeout(() => setShowConfetti(false), 15000);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <section
       id="home"
       className="relative min-h-screen flex items-center justify-center bg-cover bg-repeat overflow-hidden pt-16"
       style={{
-        backgroundImage: "url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg')",
+        backgroundImage:
+          "url('https://images.pexels.com/photos/1939485/pexels-photo-1939485.jpeg')",
         backgroundAttachment: "fixed",
       }}
     >
@@ -71,6 +68,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
           mixBlendMode: "multiply",
         }}
       ></div>
+
       {/* Background Circles */}
       <div className="absolute inset-0 overflow-hidden z-0 pointer-events-none">
         <div className="absolute top-4 left-4 flex flex-col gap-2 md:top-10 md:left-10">
@@ -89,6 +87,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
           <div className="bg-[#309cf4] rounded-full w-3 h-3 md:w-10 md:h-10"></div>
         </div>
       </div>
+
       {/* Main Content - Sits on top of everything else */}
       <div className="container mx-auto px-4 text-center relative z-20 py-4">
         <h1
@@ -104,6 +103,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
         >
           SHREEJI PAINTS & HARDWARE
         </h1>
+
         <div
           className={`mt-4 md:mt-6 transition-all duration-500 delay-100 ${
             isVisible ? "animate-fade-in-up" : "opacity-0 translate-y-8"
@@ -120,6 +120,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
           >
             Authorised Dealer of
           </p>
+
           {/* Authorized Dealership Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 max-w-4xl mx-auto mb-3 md:mb-4">
             {/* Berger Paints Card */}
@@ -144,6 +145,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
                 className="h-10 md:h-12 lg:h-14 w-auto object-contain z-10 drop-shadow"
               />
             </div>
+
             {/* Birla Opus Card */}
             <div className="px-4 py-4 md:px-6 md:py-6 rounded-xl shadow-lg border-2 border-[#2D572C]/70 hover:border-[#2D572C]/90 transition duration-500 hover:scale-105 flex flex-col items-center gap-3 text-[#2D572C] relative overflow-hidden ">
               <span
@@ -164,6 +166,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
               />
             </div>
           </div>
+
           {/* Additional Brands Section */}
           <div className="mt-2 md:mt-3">
             <p
@@ -177,6 +180,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
             >
               Other Brands (Available on Request)
             </p>
+
             {/* Additional Brands Logos - No boxes, just logos */}
             <div className="flex justify-center items-center flex-wrap gap-8 md:gap-12 lg:gap-16 max-w-4xl mx-auto">
               {/* Asian Paints */}
@@ -189,6 +193,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
                   />
                 </div>
               </div>
+
               {/* Taralac Paints */}
               <div className="flex flex-col items-center gap-2">
                 <div className="w-25 h-25 md:w-36 md:h-36 lg:w-40 lg:h-25 flex justify-center items-center bg-white border border-gray-700 rounded-xl shadow-md">
@@ -202,6 +207,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
             </div>
           </div>
         </div>
+
         <div
           className={`mt-4 md:mt-6 transition-all duration-500 delay-200 ${
             isVisible ? "animate-fade-in-up" : "opacity-0 translate-y-8"
@@ -225,7 +231,7 @@ const HeroSection = ({ onGetInTouchClick }) => {
         <div className="flex-1 bg-[#75070C]" /> {/* Crimson Red */}
       </div>
     </section>
-  )
-}
+  );
+};
 
-export default React.memo(HeroSection)
+export default HeroSection;
