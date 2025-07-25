@@ -62,7 +62,7 @@ const StickySocialIcons = () => {
               transform: translateY(0);
             }
             50% {
-              transform: translateY(-6px);
+              transform: translateY(-30px);
             }
           }
 
