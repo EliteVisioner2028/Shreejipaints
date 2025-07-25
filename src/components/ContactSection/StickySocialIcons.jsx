@@ -21,7 +21,7 @@ const StickySocialIcons = () => {
       <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end space-y-3">
         {/* Social Icons */}
         <div
-          className={`flex flex-col items-end space-y-3 transition-all duration-300 ease-in-out ${
+          className={`flex flex-col items-end space-y-3 transition-all duration-300 ease-in-out mb-10 ${
             isOpen ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-2 pointer-events-none"
           }`}
         >
@@ -62,7 +62,7 @@ const StickySocialIcons = () => {
               transform: translateY(0);
             }
             50% {
-              transform: translateY(-30px);
+              transform: translateY(-15px);
             }
           }
 
