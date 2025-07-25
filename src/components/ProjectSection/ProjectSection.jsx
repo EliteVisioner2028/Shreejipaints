@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useRef, useCallback } from "react";
+"use client";
+
+import { useState, useEffect, useRef, useCallback } from "react";
 import { ChevronLeft, ChevronRight, Paintbrush } from "lucide-react";
 import Project1 from "../../assets/Images/Project1.jpg";
 import Project2 from "../../assets/Images/Project2.jpg";
@@ -13,31 +15,31 @@ const projectsData = [
     name: "Rudveda Life",
     imageUrl: Project1,
     description:
-      "Rudveda Life is a fully planned residential enclave set amidst serene natural surroundings, offering spacious layouts, modern amenities, and a peaceful lifestyle for families seeking refined living. Proudly painted by Shreeji Paints and Hardware, ensuring long-lasting beauty and durability.",
+      "Rudveda Life is a fully planned residential enclave set amidst serene natural surroundings, offering spacious layouts, modern amenities, and a peaceful lifestyle for families seeking refined living. Proudly supplied with premium paints by Shreeji Paints & Hardware, ensuring long-lasting beauty and durability.",
   },
   {
     name: "Iscon Habitat",
     imageUrl: Project4,
     description:
-      "Iscon Habitat is a modern condominium complex in Gujarat featuring premium amenities and elegant living spaces. Painted by Shreeji Paints & Hardware.",
+      "Iscon Habitat is a modern condominium complex in Gujarat featuring premium amenities and elegant living spaces. Paints for the project were supplied by Shreeji Paints & Hardware.",
   },
   {
     name: "Sahajanand Hostel",
     imageUrl: Project2,
     description:
-      "Sahajanand Hostel offers secure, well-managed accommodations for students and professionals — with a focus on comfort, convenience, and community. The property features high-quality finishes, painted by Shreeji Paints and Hardware.",
+      "Sahajanand Hostel offers secure, well-managed accommodations for students and professionals — with a focus on comfort, convenience, and community. The property features high-quality finishes, with paints supplied by Shreeji Paints & Hardware.",
   },
   {
     name: "Iscon Height",
     imageUrl: Project5,
     description:
-      "Iscon Heights blends architectural finesse with everyday comfort, featuring refined residences and curated amenities. All paint supplies sourced from Shreeji Paints & Hardware, ensuring a lasting finish and quality aesthetic.",
+      "Iscon Heights blends architectural finesse with everyday comfort, featuring refined residences and curated amenities. All paint materials were supplied by Shreeji Paints & Hardware, ensuring a lasting finish and quality aesthetic.",
   },
   {
     name: "Rudveda Apartments",
     imageUrl: Project3,
     description:
-      "An urban apartment development by LR Realty, combining smart architecture with aesthetic finesse — Rudveda Apartments deliver practical, elegant homes designed for modern city living. Walls and exteriors finished using premium products from Shreeji Paints and Hardware.",
+      "An urban apartment development by LR Realty, combining smart architecture with aesthetic finesse — Rudveda Apartments deliver practical, elegant homes designed for modern city living. Walls and exteriors finished using premium paints supplied by Shreeji Paints & Hardware.",
   },
   {
     name: "Pratham Bluets",
@@ -49,15 +51,18 @@ const projectsData = [
     name: "Govt. School Upliftment",
     imageUrl: School,
     description:
-      "A rejuvenation project focused on creating a brighter, more inspiring learning environment. The entire school was repainted using durable and child-safe products by Shreeji Paints and Hardware — adding color, life, and motivation to every classroom.",
+      "A rejuvenation project focused on creating a brighter, more inspiring learning environment. The entire school was repainted using durable and child-safe paint products supplied by Shreeji Paints & Hardware — adding color, life, and motivation to every classroom.",
   },
 ];
+
+const MAX_DESCRIPTION_CHARS = 150; // Define max characters for truncated description
 
 const ProjectsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const scrollRef = useRef(null);
   const itemWidthRef = useRef(0);
   const [itemsPerPage, setItemsPerPage] = useState(1);
+  const [expandedProjectName, setExpandedProjectName] = useState(null); // State to track expanded project
 
   const calculateLayout = useCallback(() => {
     if (scrollRef.current) {
@@ -65,12 +70,11 @@ const ProjectsSection = () => {
       const firstChild = scrollRef.current.children[0];
       if (firstChild) {
         const style = window.getComputedStyle(firstChild);
-        const marginLeft = parseFloat(style.marginLeft);
-        const marginRight = parseFloat(style.marginRight);
+        const marginLeft = Number.parseFloat(style.marginLeft);
+        const marginRight = Number.parseFloat(style.marginRight);
         const totalItemWidth =
           firstChild.offsetWidth + marginLeft + marginRight;
         itemWidthRef.current = totalItemWidth;
-
         if (containerWidth >= 1024) {
           setItemsPerPage(3);
         } else if (containerWidth >= 768) {
@@ -112,214 +116,119 @@ const ProjectsSection = () => {
     setCurrentIndex((prevIndex) => (prevIndex >= maxIndex ? 0 : prevIndex + 1));
   };
 
+  const toggleReadMore = (projectName) => {
+    setExpandedProjectName((prevName) =>
+      prevName === projectName ? null : projectName
+    );
+  };
+
   return (
     <section
       id="projects"
+      className="relative overflow-hidden py-10 px-4 text-[#222]"
       style={{
-        padding: "6rem 1rem",
         backgroundImage:
           "url('https://images.pexels.com/photos/8941369/pexels-photo-8941369.jpeg')",
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
-        color: "#222",
-        position: "relative",
-        overflow: "hidden",
       }}
     >
-      <div
-        style={{
-          maxWidth: "1280px",
-          margin: "0 auto",
-          position: "relative",
-          zIndex: 1,
-          textAlign: "center",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginBottom: "2rem",
-          }}
-        >
-          <Paintbrush
-            size={48}
-            color="#D35400"
-            style={{ marginBottom: "0.5rem" }}
-          />
+      <div className="relative mx-auto max-w-screen-xl z-10 text-center">
+        <div className="flex justify-center mb-5">
+          <Paintbrush size={48} color="#D35400" className="mb-2" />
         </div>
-
         <h2
           style={{
             fontSize: "clamp(1.8rem, 5vw, 3rem)",
-            fontWeight: "800",
-            color: "#D35400",
-            textAlign: "center",
-            marginBottom: "1rem",
-            fontFamily: "serif",
-            letterSpacing: "0.5px",
-            padding: "0 1rem",
           }}
+          className="font-extrabold text-[#D35400] text-center mb-4 font-serif tracking-wide px-4"
         >
           "Paint Supplied, Perfection Applied"
         </h2>
-
-        <div style={{ position: "relative" }}>
+        <div className="relative">
           <div
             ref={scrollRef}
-            style={{
-              display: "flex",
-              overflowX: "hidden",
-              scrollBehavior: "smooth",
-              paddingBottom: "1rem",
-            }}
+            className="flex overflow-x-hidden scroll-smooth pb-4"
           >
-            {projectsData.map((project, index) => (
-              <div
-                key={index}
-                style={{
-                  flexShrink: 0,
-                  width: "100%",
-                  maxWidth:
-                    itemsPerPage === 1
-                      ? "100%"
-                      : itemsPerPage === 2
-                      ? "50%"
-                      : "33.33%",
-                  padding: "0 0.75rem",
-                }}
-              >
+            {projectsData.map((project, index) => {
+              const isExpanded = expandedProjectName === project.name;
+              const needsTruncation =
+                project.description.length > MAX_DESCRIPTION_CHARS;
+              const displayedDescription =
+                needsTruncation && !isExpanded
+                  ? project.description.substring(0, MAX_DESCRIPTION_CHARS) +
+                    "..."
+                  : project.description;
+
+              return (
                 <div
-                  style={{
-                    height: "100%",
-                    backgroundColor: "#fff",
-                    borderRadius: "1rem",
-                    boxShadow: "0 10px 30px rgba(0,0,0,0.08)",
-                    overflow: "hidden",
-                    border: "1px solid #f0e0d0",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
+                  key={index}
+                  className={`flex-shrink-0 w-full px-3 ${
+                    itemsPerPage === 1
+                      ? "max-w-full"
+                      : itemsPerPage === 2
+                      ? "md:max-w-1/2"
+                      : "lg:max-w-1/3"
+                  }`}
                 >
-                  <div style={{ flex: "0 0 80%", height: "80%" }}>
-                    <img
-                      src={project.imageUrl}
-                      alt={project.name}
-                      style={{
-                        width: "100%",
-                        height: "100%",
-                        objectFit: "cover",
-                        display: "block",
-                      }}
-                    />
-                  </div>
-                  <div
-                    style={{
-                      flex: "1 1 20%",
-                      padding: "1rem",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "flex-start",
-                    }}
-                  >
-                    <h3
-                      style={{
-                        fontSize: "1.1rem",
-                        fontWeight: "600",
-                        marginBottom: "0.4rem",
-                        color: "#333",
-                      }}
-                    >
-                      {project.name}
-                    </h3>
-                    <p
-                      style={{
-                        fontSize: "0.9rem",
-                        color: "#666",
-                        lineHeight: "1.4",
-                        textAlign: "justify",
-                        overflow: "hidden",
-                        textOverflow: "ellipsis",
-                        display: "-webkit-box",
-                        WebkitLineClamp: 3,
-                        WebkitBoxOrient: "vertical",
-                      }}
-                    >
-                      {project.description}
-                    </p>
+                  <div className="flex h-full flex-col rounded-xl border border-[#f0e0d0] bg-white shadow-lg">
+                    <div className="w-full h-auto overflow-hidden">
+                      <img
+                        src={project.imageUrl || "/placeholder.svg"}
+                        alt={project.name}
+                        className="w-full h-full object-contain block"
+                      />
+                    </div>
+                    <div className="flex-1 p-4 flex flex-col justify-start">
+                      <h3 className="text-lg font-semibold mb-1.5 text-[#333]">
+                        {project.name}
+                      </h3>
+                      <p className="text-sm text-[#666] leading-tight text-justify">
+                        {displayedDescription}
+                      </p>
+                      {needsTruncation && (
+                        <button
+                          onClick={() => toggleReadMore(project.name)}
+                          className="mt-2 text-sm text-[#E67E22] font-medium hover:text-[#D35400] focus:outline-none focus:ring-2 focus:ring-[#E67E22] focus:ring-opacity-50"
+                        >
+                          {isExpanded ? "Read Less" : "Read More"}
+                        </button>
+                      )}
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
-
           {/* Navigation Buttons */}
           <button
             onClick={handlePrev}
-            style={{
-              position: "absolute",
-              left: 0,
-              top: "50%",
-              transform: "translateY(-50%)",
-              backgroundColor: "#E67E22",
-              color: "#fff",
-              padding: "0.75rem",
-              borderRadius: "50%",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.15)",
-              border: "none",
-              cursor: "pointer",
-              zIndex: 10,
-            }}
+            className="absolute left-0 top-1/2 -translate-y-1/2 bg-[#E67E22] text-white p-3 rounded-full shadow-lg border-none cursor-pointer z-10 hover:bg-[#D35400] focus:outline-none focus:ring-2 focus:ring-[#E67E22] focus:ring-opacity-50"
             aria-label="Previous project"
           >
             <ChevronLeft size={24} />
           </button>
           <button
             onClick={handleNext}
-            style={{
-              position: "absolute",
-              right: 0,
-              top: "50%",
-              transform: "translateY(-50%)",
-              backgroundColor: "#E67E22",
-              color: "#fff",
-              padding: "0.75rem",
-              borderRadius: "50%",
-              boxShadow: "0 4px 15px rgba(0,0,0,0.15)",
-              border: "none",
-              cursor: "pointer",
-              zIndex: 10,
-            }}
+            className="absolute right-0 top-1/2 -translate-y-1/2 bg-[#E67E22] text-white p-3 rounded-full shadow-lg border-none cursor-pointer z-10 hover:bg-[#D35400] focus:outline-none focus:ring-2 focus:ring-[#E67E22] focus:ring-opacity-50"
             aria-label="Next project"
           >
             <ChevronRight size={24} />
           </button>
         </div>
-
         {/* Pagination Dots */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "2.5rem",
-            gap: "0.5rem",
-          }}
-        >
+        <div className="flex justify-center mt-10 gap-2">
           {Array.from({ length: projectsData.length - itemsPerPage + 1 }).map(
             (_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                style={{
-                  width: "0.75rem",
-                  height: "0.75rem",
-                  borderRadius: "999px",
-                  backgroundColor: currentIndex === index ? "#E67E22" : "#ccc",
-                  transform: currentIndex === index ? "scale(1.2)" : "scale(1)",
-                  transition: "all 0.2s ease-in-out",
-                  border: "none",
-                }}
+                className={`w-3 h-3 rounded-full transition-all duration-200 ease-in-out border-none ${
+                  currentIndex === index
+                    ? "bg-[#E67E22] scale-125"
+                    : "bg-[#ccc]"
+                } focus:outline-none focus:ring-2 focus:ring-[#E67E22] focus:ring-opacity-50`}
                 aria-label={`Go to project ${index + 1}`}
               />
             )

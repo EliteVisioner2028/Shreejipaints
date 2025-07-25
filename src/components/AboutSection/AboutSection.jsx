@@ -278,7 +278,7 @@ const AboutSection = () => {
             </div>
             <div className="text-center">
               <h2
-                className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-2"
+                className="text-2xl sm:text-3xl md:text-4xl lg:text-4xl font-bold tracking-tight mb-2"
                 style={{
                   color: "#75070C",
                   fontFamily:
@@ -286,18 +286,18 @@ const AboutSection = () => {
                   fontWeight: 800,
                 }}
               >
-                Welcome to Our
+                About Shreeji Paints & Hardware
               </h2>
               <h2
-                className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-[#02008f] via-[#13110c] to-[#005029] bg-clip-text text-transparent"
+                className="text-1xl sm:text-2xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-[#02008f] via-[#13110c] to-[#005029] bg-clip-text text-transparent"
                 style={{
                   fontFamily:
                     "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
                   fontWeight: 700,
-                  textShadow: "0 2px 4px rgba(0,0,0,0.2)",
+                  textShadow: "0 1px 2px",
                 }}
               >
-                Color Universe
+                Trusted Paint Supplier Since 2022
               </h2>
             </div>
           </div>
@@ -308,11 +308,12 @@ const AboutSection = () => {
               fontFamily:
                 "'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif",
               fontWeight: 600,
-              textShadow: "0 2px 4px rgba(255,255,255,0.8)",
             }}
           >
-            Step into a world where every shade tells a story, every hue creates
-            magic
+            With decades of experience, Shreeji Paints & Hardware is your go-to
+            destination for premium paint solutions across residential,
+            commercial, and industrial spaces. We’re not just about color —
+            we’re about quality, durability, and trusted relationships
           </p>
 
           {/* Paint Palette */}
