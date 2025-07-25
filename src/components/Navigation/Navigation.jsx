@@ -130,6 +130,7 @@ const GalleryModal = ({ images, onClose }) => {
                     src={image.src || "/placeholder.svg"}
                     alt={image.alt}
                     className="max-w-full max-h-[60vh] object-contain rounded-md"
+                     loading="lazy"
                   />
                 </div>
               ))}
