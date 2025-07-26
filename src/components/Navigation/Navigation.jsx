@@ -321,7 +321,7 @@ export default function Navigation() {
         observerRef.current.disconnect()
       }
     }
-  }, [isProgrammaticScrolling, activeLink]) // Corrected: navigationItems is now included in dependencies
+  }, []) // Corrected: navigationItems is now included in dependencies
 
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen((prev) => !prev)
