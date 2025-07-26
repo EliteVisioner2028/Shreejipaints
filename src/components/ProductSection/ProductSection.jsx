@@ -1,5 +1,4 @@
 "use client"
-
 import { useState, useEffect, useRef } from "react"
 import { Download, Star, Shield, Award, ChevronDown, X, ArrowLeft } from "lucide-react"
 import { productCategories, productsData, pdfFiles } from "../../data/productsData"
@@ -41,9 +40,15 @@ const LucideIcons = {
 
 // Enhanced Back Button Component
 const BackButton = ({ onClick, children, className = "" }) => {
+  const handleClick = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onClick()
+  }
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className={`inline-flex items-center px-6 py-3 mb-8 bg-gradient-to-r from-[#63171b] to-[#88022f] hover:from-[#75070C] hover:to-[#9a0233] text-white font-semibold rounded-full shadow-lg hover:shadow-xl transition-all duration-200 ${className}`}
     >
       <ArrowLeft size={18} className="mr-2" />
@@ -54,10 +59,31 @@ const BackButton = ({ onClick, children, className = "" }) => {
 
 // Modal Component for expanded description
 const DescriptionModal = ({ isOpen, onClose, product }) => {
+  useEffect(() => {
+    if (isOpen) {
+      document.body.style.overflow = "hidden"
+    } else {
+      document.body.style.overflow = "unset"
+    }
+
+    return () => {
+      document.body.style.overflow = "unset"
+    }
+  }, [isOpen])
+
   if (!isOpen) return null
 
+  const handleBackdropClick = (e) => {
+    if (e.target === e.currentTarget) {
+      onClose()
+    }
+  }
+
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div
+      className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+      onClick={handleBackdropClick}
+    >
       <div className="bg-white rounded-2xl max-w-2xl w-full max-h-[80vh] overflow-y-auto">
         <div className="p-6">
           <div className="flex justify-between items-start mb-4">
@@ -92,6 +118,184 @@ const DescriptionModal = ({ isOpen, onClose, product }) => {
         </div>
       </div>
     </div>
+  )
+}
+
+// Utility function to detect mobile devices
+const isMobileDevice = () => {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
+}
+
+// Enhanced Download Button Component with better mobile support
+const DownloadButton = ({ product, downloadingStates, onDownload }) => {
+  const [isPressed, setIsPressed] = useState(false)
+  const buttonRef = useRef(null)
+  const downloadTimeoutRef = useRef(null)
+
+  const triggerDownload = async (pdfUrl, fileName) => {
+    try {
+      const isMobile = isMobileDevice()
+
+      if (isMobile) {
+        // For mobile devices, open in new tab/window
+        const newWindow = window.open(pdfUrl, "_blank")
+        if (!newWindow) {
+          // If popup blocked, try direct navigation
+          window.location.href = pdfUrl
+        }
+      } else {
+        // For desktop, try fetch and blob approach first
+        try {
+          const response = await fetch(pdfUrl)
+          if (response.ok) {
+            const blob = await response.blob()
+            const url = window.URL.createObjectURL(blob)
+
+            const link = document.createElement("a")
+            link.href = url
+            link.download = fileName
+            link.style.display = "none"
+
+            document.body.appendChild(link)
+            link.click()
+            document.body.removeChild(link)
+
+            // Clean up the blob URL
+            setTimeout(() => window.URL.revokeObjectURL(url), 100)
+          } else {
+            throw new Error("Fetch failed")
+          }
+        } catch {
+          // Fallback to direct link method
+          const link = document.createElement("a")
+          link.href = pdfUrl
+          link.download = fileName
+          link.target = "_blank"
+          link.style.display = "none"
+
+          document.body.appendChild(link)
+          link.click()
+          document.body.removeChild(link)
+        }
+      }
+    } catch (error) {
+      console.error("Download error:", error)
+      // Final fallback - open in new tab
+      window.open(pdfUrl, "_blank")
+    }
+  }
+
+  const handleDownload = async (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+
+    // Prevent multiple rapid clicks
+    if (downloadingStates[product.pdfKey] || downloadTimeoutRef.current) {
+      return
+    }
+
+    // Clear any existing timeout
+    if (downloadTimeoutRef.current) {
+      clearTimeout(downloadTimeoutRef.current)
+    }
+
+    const pdfUrl = pdfFiles[product.pdfKey]
+    const fileName = `${product.name.replace(/\s+/g, "-").toLowerCase()}-datasheet.pdf`
+
+    // Set downloading state
+    onDownload(product.pdfKey, product.name, true)
+
+    // Add a small delay to show loading state
+    downloadTimeoutRef.current = setTimeout(async () => {
+      try {
+        await triggerDownload(pdfUrl, fileName)
+      } catch (error) {
+        console.error("Download failed:", error)
+        alert("Download failed. Please try again or contact support.")
+      } finally {
+        // Reset downloading state
+        setTimeout(() => {
+          onDownload(product.pdfKey, product.name, false)
+        }, 1000)
+      }
+      downloadTimeoutRef.current = null
+    }, 200)
+  }
+
+  const handleTouchStart = () => {
+    setIsPressed(true)
+  }
+
+  const handleTouchEnd = () => {
+    setIsPressed(false)
+    handleDownload({ preventDefault: () => {}, stopPropagation: () => {} })
+  }
+
+  const handleMouseDown = () => {
+    setIsPressed(true)
+  }
+
+  const handleMouseUp = () => {
+    setIsPressed(false)
+  }
+
+  const handleMouseLeave = () => {
+    setIsPressed(false)
+  }
+
+  useEffect(() => {
+    return () => {
+      if (downloadTimeoutRef.current) {
+        clearTimeout(downloadTimeoutRef.current)
+      }
+    }
+  }, [])
+
+  if (!product.pdfKey || !pdfFiles[product.pdfKey]) {
+    return (
+      <button
+        disabled
+        className="w-full px-6 py-3 rounded-2xl font-semibold border bg-gray-300 text-gray-600 cursor-not-allowed"
+      >
+        Data Sheet Not Available
+      </button>
+    )
+  }
+
+  const isDownloading = downloadingStates[product.pdfKey]
+
+  return (
+    <button
+      ref={buttonRef}
+      onClick={handleDownload}
+      onTouchStart={handleTouchStart}
+      onTouchEnd={handleTouchEnd}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseLeave={handleMouseLeave}
+      disabled={isDownloading}
+      className={`w-full px-6 py-3 rounded-2xl font-semibold border transition-all duration-200 transform shadow-md hover:shadow-lg group/download select-none ${
+        isDownloading
+          ? "bg-gray-400 text-white border-gray-400 cursor-not-allowed"
+          : `bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 text-white border-gray-600 hover:border-gray-500 ${
+              isPressed ? "scale-95" : "hover:scale-105"
+            }`
+      }`}
+      style={{
+        WebkitTapHighlightColor: "transparent",
+        WebkitTouchCallout: "none",
+        WebkitUserSelect: "none",
+        userSelect: "none",
+        touchAction: "manipulation",
+      }}
+    >
+      <span className="flex items-center justify-center">
+        <Download
+          className={`h-4 w-4 mr-2 ${isDownloading ? "animate-spin" : "group-hover/download:animate-bounce"}`}
+        />
+        <span className="whitespace-nowrap">{isDownloading ? "Downloading..." : "Download Data Sheet"}</span>
+      </span>
+    </button>
   )
 }
 
@@ -136,6 +340,7 @@ const ProductCard = ({ product, downloadingStates, handleDataSheetDownload }) =>
             <Star className="h-4 w-4 text-yellow-500 fill-current" />
           </div>
         </div>
+
         {/* Content - Fixed layout */}
         <div className="p-6 flex flex-col flex-grow bg-gradient-to-b from-gray-50 to-gray-100">
           <div className="flex-grow">
@@ -143,6 +348,7 @@ const ProductCard = ({ product, downloadingStates, handleDataSheetDownload }) =>
             <h4 className="text-xl font-bold text-gray-800 mb-3 group-hover:text-blue-600 transition-colors duration-300 leading-tight h-14 overflow-hidden">
               {product.name}
             </h4>
+
             {/* Description - Fixed height with overflow handling */}
             <div className="relative mb-4">
               <p
@@ -162,42 +368,21 @@ const ProductCard = ({ product, downloadingStates, handleDataSheetDownload }) =>
               )}
             </div>
           </div>
+
           {/* Download Button - Fixed position */}
           <div className="mt-auto">
-            {product.pdfKey && pdfFiles[product.pdfKey] ? (
-              <button
-                onClick={() => handleDataSheetDownload(product.pdfKey, product.name)}
-                disabled={downloadingStates[product.pdfKey]}
-                className={`w-full px-6 py-3 rounded-2xl font-semibold border transition-all duration-300 transform shadow-md hover:shadow-lg group/download ${
-                  downloadingStates[product.pdfKey]
-                    ? "bg-gray-400 text-white border-gray-400 cursor-not-allowed"
-                    : "bg-gradient-to-r from-gray-700 to-gray-800 hover:from-gray-800 hover:to-gray-900 text-white border-gray-600 hover:border-gray-500 hover:scale-105"
-                }`}
-              >
-                <span className="flex items-center justify-center">
-                  <Download
-                    className={`h-4 w-4 mr-2 ${
-                      downloadingStates[product.pdfKey] ? "animate-spin" : "group-hover/download:animate-bounce"
-                    }`}
-                  />
-                  <span className="whitespace-nowrap">
-                    {downloadingStates[product.pdfKey] ? "Downloading..." : "Download Data Sheet"}
-                  </span>
-                </span>
-              </button>
-            ) : (
-              <button
-                disabled
-                className="w-full px-6 py-3 rounded-2xl font-semibold border bg-gray-300 text-gray-600 cursor-not-allowed"
-              >
-                Data Sheet Not Available
-              </button>
-            )}
+            <DownloadButton
+              product={product}
+              downloadingStates={downloadingStates}
+              onDownload={handleDataSheetDownload}
+            />
           </div>
         </div>
+
         {/* Bottom accent */}
         <div className="h-1 w-full bg-gradient-to-r from-blue-600 to-blue-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
       </div>
+
       {/* Modal for expanded description */}
       <DescriptionModal isOpen={showModal} onClose={() => setShowModal(false)} product={product} />
     </>
@@ -207,14 +392,24 @@ const ProductCard = ({ product, downloadingStates, handleDataSheetDownload }) =>
 // SubCategoryCard Component
 const SubCategoryCard = ({ subCategory, onClick, isActive }) => {
   const Icon = LucideIcons[subCategory.icon] || LucideIcons.Brush
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onClick()
+  }
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className={`group relative flex flex-col items-center text-center p-4 rounded-lg transition-all duration-200 ease-in-out ${
         isActive
           ? "bg-[#FFEDAB]/20 text-[#63171b] shadow-md scale-105 ring-2 ring-[#88022f]/50"
           : "bg-white text-gray-700 hover:bg-gray-50 hover:shadow-sm hover:scale-102"
       } border border-gray-200 hover:border-[#FFEDAB] cursor-pointer`}
+      style={{
+        WebkitTapHighlightColor: "transparent",
+      }}
     >
       {/* Click Here Label - Always visible */}
       <div className="absolute -top-2 -right-2 bg-[#88022f] text-white text-xs px-3 py-1 rounded-full shadow-lg border-2 border-white">
@@ -230,6 +425,7 @@ const SubCategoryCard = ({ subCategory, onClick, isActive }) => {
           className="rounded-full object-cover mb-3"
         />
       )}
+
       {Icon && <Icon size={40} className="mb-2 text-[#63171b]" />}
       <h3 className="text-lg font-semibold mb-1">{subCategory.name}</h3>
       <p className="text-sm text-gray-600 mb-2">{subCategory.description}</p>
@@ -249,10 +445,20 @@ const SubCategoryCard = ({ subCategory, onClick, isActive }) => {
 // MainCategoryCard Component
 const MainCategoryCard = ({ category, onClick }) => {
   const Icon = LucideIcons[category.icon] || LucideIcons.Brush
+
+  const handleClick = (e) => {
+    e.preventDefault()
+    e.stopPropagation()
+    onClick()
+  }
+
   return (
     <button
-      onClick={onClick}
+      onClick={handleClick}
       className="relative flex flex-col items-center text-center p-6 bg-[#fef7f8] rounded-2xl border-[2.5px] border-[#88022f] shadow-[0_4px_10px_rgba(136,2,47,0.25)] hover:shadow-[0_6px_20px_rgba(136,2,47,0.4)] transition-all duration-300 transform hover:scale-105 cursor-pointer overflow-hidden group"
+      style={{
+        WebkitTapHighlightColor: "transparent",
+      }}
     >
       <span className="absolute -inset-1 rounded-2xl border-[2px] border-[#88022f] animate-pulse opacity-40 pointer-events-none"></span>
 
@@ -321,7 +527,6 @@ export default function ProductSection({
     }
 
     window.addEventListener("selectProductCategory", handleCategorySelection)
-
     return () => {
       window.removeEventListener("selectProductCategory", handleCategorySelection)
     }
@@ -363,29 +568,16 @@ export default function ProductSection({
     if (onCategoryChange) onCategoryChange(activeMainCategoryId, activeSubCategoryId, null)
   }
 
-  const handleDataSheetDownload = async (pdfKey, productName) => {
-    try {
-      setDownloadingStates((prev) => ({ ...prev, [pdfKey]: true }))
-      const pdfFile = pdfFiles[pdfKey]
-      if (pdfFile) {
-        const fileName = `${productName.replace(/\s+/g, "-").toLowerCase()}-datasheet.pdf`
-        const link = document.createElement("a")
-        link.href = pdfFile
-        link.download = fileName
-        link.target = "_blank"
-        link.style.display = "none"
-        document.body.appendChild(link)
-        link.click()
-        document.body.removeChild(link)
-      } else {
-        alert(`PDF for ${productName} is not available yet. Please contact support.`)
-      }
-    } catch (error) {
-      console.error("Download failed:", error)
-      alert("Download failed. Please try again.")
-    } finally {
-      setDownloadingStates((prev) => ({ ...prev, [pdfKey]: false }))
+  // Updated download handler with better mobile support
+  const handleDataSheetDownload = (pdfKey, productName, isStarting = null) => {
+    if (isStarting !== null) {
+      // This is called from DownloadButton to set state
+      setDownloadingStates((prev) => ({ ...prev, [pdfKey]: isStarting }))
+      return
     }
+
+    // This shouldn't be called directly anymore, but keeping for compatibility
+    console.warn("handleDataSheetDownload called directly, use DownloadButton instead")
   }
 
   const currentMainCategory = productCategories.find((cat) => cat.id === activeMainCategoryId)
@@ -417,9 +609,7 @@ export default function ProductSection({
         backgroundImage: `url('https://images.pexels.com/photos/20899958/pexels-photo-20899958.jpeg')`,
       }}
     >
-
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.05),transparent)] pointer-events-none" />
-
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header Section */}
         <div className="text-center mb-12 md:mb-16">
@@ -539,7 +729,6 @@ export default function ProductSection({
             </div>
           )}
       </div>
-
       <div className="absolute bottom-[0] left-[0] w-full h-1 md:h-2 z-10 flex">
         <div className="flex-1 bg-[#D72638]" /> {/* Crimson Red */}
         <div className="flex-1 bg-[#f38d19]" /> {/* Warm Orange */}
