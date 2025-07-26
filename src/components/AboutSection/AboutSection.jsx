@@ -310,7 +310,7 @@ const AboutSection = () => {
               fontWeight: 600,
             }}
           >
-            With decades of experience, Shreeji Paints & Hardware is your go-to
+            Shreeji Paints & Hardware is your go-to
             destination for premium paint solutions across residential,
             commercial, and industrial spaces. We’re not just about color —
             we’re about quality, durability, and trusted relationships
