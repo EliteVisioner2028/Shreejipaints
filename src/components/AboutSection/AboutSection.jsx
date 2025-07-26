@@ -288,6 +288,12 @@ const AboutSection = () => {
               >
                 About Shreeji Paints & Hardware
               </h2>
+              <div className="flex justify-center items-center space-x-3 mb-5">
+                <span className="px-5 py-3 text-base bg-[#75070C] text-[#fbeab1] rounded-xl  shadow-lg mt-4 inline-block font-semibold tracking-wide">
+                  Nimesh Patel
+                </span>
+              </div>
+
               <h2
                 className="text-1xl sm:text-2xl md:text-2xl lg:text-3xl font-bold bg-gradient-to-r from-[#02008f] via-[#13110c] to-[#005029] bg-clip-text text-transparent"
                 style={{
@@ -310,10 +316,10 @@ const AboutSection = () => {
               fontWeight: 600,
             }}
           >
-            Shreeji Paints & Hardware is your go-to
-            destination for premium paint solutions across residential,
-            commercial, and industrial spaces. We’re not just about color —
-            we’re about quality, durability, and trusted relationships
+            Shreeji Paints & Hardware is your go-to destination for premium
+            paint solutions across residential, commercial, and industrial
+            spaces. We’re not just about color — we’re about quality,
+            durability, and trusted relationships
           </p>
 
           {/* Paint Palette */}
