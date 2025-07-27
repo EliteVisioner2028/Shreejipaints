@@ -308,7 +308,7 @@ const AboutSection = () => {
             </div>
           </div>
           <p
-            className="text-base sm:text-lg md:text-xl max-w-4xl mx-auto leading-relaxed font-semibold px-4"
+            className="text-base sm:text-lg md:text-xl max-w-4xl mx-auto leading-relaxed font-semibold px-4 text-justify"
             style={{
               color: "#5A0509",
               fontFamily:
@@ -316,10 +316,21 @@ const AboutSection = () => {
               fontWeight: 600,
             }}
           >
-            Shreeji Paints & Hardware is your go-to destination for premium
-            paint solutions across residential, commercial, and industrial
-            spaces. We’re not just about color — we’re about quality,
-            durability, and trusted relationships
+            <strong>Shreeji Paints & Hardware</strong> is your go-to destination
+            for <strong>premium paint solutions</strong> across{" "}
+            <strong>residential, commercial, and industrial spaces</strong>.
+            We’re not just about color — we’re about{" "}
+            <strong>quality, durability</strong>, and{" "}
+            <strong>trusted relationships</strong>. Based in{" "}
+            <strong>Anand, Gujarat</strong>, we proudly serve cities like{" "}
+            <strong>
+              Vallabh Vidyanagar, Karamsad, Lambhvel, Nadiad, Vadodara,
+              Ahmedabad
+            </strong>
+            , and more. While rooted locally, we also support{" "}
+            <strong>projects across India</strong> and welcome{" "}
+            <strong>international inquiries</strong> for{" "}
+            <strong>bulk supply</strong> and <strong>custom solutions</strong>.
           </p>
 
           {/* Paint Palette */}
