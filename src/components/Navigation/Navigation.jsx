@@ -1,5 +1,4 @@
 "use client"
-
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import {
   HomeIcon as House,
@@ -67,7 +66,7 @@ const GalleryModal = ({ images, onClose }) => {
   const [currentIndex, setCurrentIndex] = useState(0)
   const carouselRef = useRef(null)
 
-  // Scroll to the current image when index changes [^1]
+  // Scroll to the current image when index changes
   useEffect(() => {
     if (carouselRef.current && carouselRef.current.children[currentIndex]) {
       carouselRef.current.children[currentIndex].scrollIntoView({
@@ -117,6 +116,7 @@ const GalleryModal = ({ images, onClose }) => {
         >
           <X size={24} />
         </button>
+
         <div className="p-6 flex-grow flex flex-col justify-center items-center">
           <h2 className="text-2xl font-bold mb-4 text-gray-800">Gallery</h2>
           <div className="relative w-full overflow-hidden">
@@ -130,11 +130,12 @@ const GalleryModal = ({ images, onClose }) => {
                     src={image.src || "/placeholder.svg"}
                     alt={image.alt}
                     className="max-w-full max-h-[60vh] object-contain rounded-md"
-                     loading="lazy"
+                    loading="lazy"
                   />
                 </div>
               ))}
             </div>
+
             <button
               onClick={handlePrev}
               className="absolute left-2 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity"
@@ -142,6 +143,7 @@ const GalleryModal = ({ images, onClose }) => {
             >
               <ChevronLeft size={24} />
             </button>
+
             <button
               onClick={handleNext}
               className="absolute right-2 top-1/2 -translate-y-1/2 bg-gray-800 bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-75 transition-opacity"
@@ -150,6 +152,7 @@ const GalleryModal = ({ images, onClose }) => {
               <ChevronRight size={24} />
             </button>
           </div>
+
           <div className="flex justify-center mt-4 space-x-2">
             {images.map((_, index) => (
               <button
@@ -186,7 +189,7 @@ const NavLink = React.memo(({ item, isActive, onClick }) => {
   )
 })
 
-NavLink.displayName = "NavLink" // Add display name for better debugging
+NavLink.displayName = "NavLink"
 
 export default function Navigation() {
   const [activeLink, setActiveLink] = useState("Home")
@@ -195,6 +198,7 @@ export default function Navigation() {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false)
   const observerRef = useRef(null)
   const [isProgrammaticScrolling, setIsProgrammaticScrolling] = useState(false)
+  const scrollTimeoutRef = useRef(null)
 
   const navigationItems = [
     { name: "Home", icon: Home, href: "#home" },
@@ -218,22 +222,34 @@ export default function Navigation() {
   const rightNavItems = navigationItems.slice(3)
 
   const handleLinkClick = useCallback((linkName, href) => {
+    // Immediately set the active link
     setActiveLink(linkName)
     setIsMobileMenuOpen(false)
     setShowProductsDropdown(false)
+
+    // Clear any existing timeout
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current)
+    }
+
+    // Set programmatic scrolling flag
     setIsProgrammaticScrolling(true)
+
     if (href && href.startsWith("#")) {
       const element = document.querySelector(href)
       if (element) {
         const navHeight = 64
         const elementPosition = element.offsetTop - navHeight
+
         window.scrollTo({
           top: elementPosition,
           behavior: "smooth",
         })
-        setTimeout(() => {
+
+        // Reset the flag after scrolling is complete
+        scrollTimeoutRef.current = setTimeout(() => {
           setIsProgrammaticScrolling(false)
-        }, 800)
+        }, 1000) // Increased timeout to ensure smooth scrolling completes
       } else {
         setIsProgrammaticScrolling(false)
       }
@@ -243,36 +259,48 @@ export default function Navigation() {
   }, [])
 
   const handleProductCategoryClick = useCallback((categoryId) => {
+    // Immediately set the active link
     setActiveLink("Products")
     setShowProductsDropdown(false)
     setIsMobileMenuOpen(false)
+
+    // Clear any existing timeout
+    if (scrollTimeoutRef.current) {
+      clearTimeout(scrollTimeoutRef.current)
+    }
+
     setIsProgrammaticScrolling(true)
+
     const element = document.querySelector("#products")
     if (element) {
       const navHeight = 64
       const elementPosition = element.offsetTop - navHeight
+
       window.scrollTo({
         top: elementPosition,
         behavior: "smooth",
       })
-      setTimeout(() => {
+
+      // Dispatch the product category event after scrolling
+      scrollTimeoutRef.current = setTimeout(() => {
         window.dispatchEvent(
           new CustomEvent("selectProductCategory", {
             detail: { categoryId },
           }),
         )
         setIsProgrammaticScrolling(false)
-      }, 800)
+      }, 1000)
     } else {
       setIsProgrammaticScrolling(false)
     }
   }, [])
 
-  // Use Intersection Observer for smooth, flicker-free navigation [^1]
+  // Enhanced Intersection Observer with better conflict handling
   useEffect(() => {
     if (observerRef.current) {
       observerRef.current.disconnect()
     }
+
     const sections = navigationItems
       .map((item) => ({
         name: item.name,
@@ -284,16 +312,19 @@ export default function Navigation() {
 
     const observerOptions = {
       root: null,
-      rootMargin: "-20% 0px -70% 0px",
-      threshold: 0,
+      rootMargin: "-10% 0px -80% 0px", // Adjusted margins for better detection
+      threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5], // Multiple thresholds for better accuracy
     }
 
     const observerCallback = (entries) => {
+      // Don't update active link during programmatic scrolling
       if (isProgrammaticScrolling) {
         return
       }
+
       let mostVisibleSection = null
       let maxIntersectionRatio = 0
+
       entries.forEach((entry) => {
         if (entry.isIntersecting && entry.intersectionRatio > maxIntersectionRatio) {
           maxIntersectionRatio = entry.intersectionRatio
@@ -303,7 +334,9 @@ export default function Navigation() {
           }
         }
       })
-      if (mostVisibleSection && mostVisibleSection !== activeLink) {
+
+      // Only update if we have a clear winner and it's different from current
+      if (mostVisibleSection && mostVisibleSection !== activeLink && maxIntersectionRatio > 0.1) {
         setActiveLink(mostVisibleSection)
       }
     }
@@ -320,8 +353,11 @@ export default function Navigation() {
       if (observerRef.current) {
         observerRef.current.disconnect()
       }
+      if (scrollTimeoutRef.current) {
+        clearTimeout(scrollTimeoutRef.current)
+      }
     }
-  }, []) // Corrected: navigationItems is now included in dependencies
+  }, [activeLink, isProgrammaticScrolling]) // Added isProgrammaticScrolling to dependencies
 
   const toggleMobileMenu = useCallback(() => {
     setIsMobileMenuOpen((prev) => !prev)
@@ -363,6 +399,7 @@ export default function Navigation() {
           {rightNavItems.map((item) => {
             const Icon = item.icon
             const isActive = activeLink === item.name
+
             if (item.dropdown) {
               return (
                 <div key={item.name} className="relative">
@@ -382,6 +419,7 @@ export default function Navigation() {
                       <div className="absolute -bottom-1.5 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-[#FFEDAB] rounded-full transition-all duration-300"></div>
                     )}
                   </button>
+
                   {/* Dropdown Menu */}
                   <div
                     className={`absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 transition-all duration-200 ${
@@ -403,6 +441,7 @@ export default function Navigation() {
                 </div>
               )
             }
+
             return (
               <NavLink
                 key={item.name}
@@ -449,6 +488,7 @@ export default function Navigation() {
           {navigationItems.map((item) => {
             const Icon = item.icon
             const isActive = activeLink === item.name
+
             if (item.dropdown) {
               return (
                 <div key={item.name}>
@@ -478,6 +518,7 @@ export default function Navigation() {
                 </div>
               )
             }
+
             return (
               <button
                 key={item.name}
@@ -495,6 +536,7 @@ export default function Navigation() {
           })}
         </div>
       </div>
+
       {isGalleryOpen && <GalleryModal images={galleryImages} onClose={toggleGallery} />}
     </nav>
   )
