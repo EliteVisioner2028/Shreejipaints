@@ -1,38 +1,75 @@
 <!doctype html>
 <html lang="en">
   <head>
-  <meta charset="UTF-8" />
-  <link rel="icon" type="image/jpeg" href="/ShreejiLogo.jpg" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Shreeji Paints & Hardware</title>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/jpeg" href="/ShreejiLogo.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Shreeji Paints & Hardware</title>
 
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Shreeji Paints & Hardware",
-    "url": "https://www.shreejipaintsandhardware.com",
-    "logo": "https://www.shreejipaintsandhardware.com/ShreejiLogo.jpg"
-  }
-  </script>
+    <!-- ✅ Meta Description -->
+    <meta name="description" content="Shreeji Paints & Hardware in Anand offers trusted paint and hardware solutions for homes, contractors, and industries." />
 
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NR1YXHHXS"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-6NR1YXHHXS');
-  </script>
+    <!-- ✅ JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "HardwareStore",
+      "name": "Shreeji Paints & Hardware",
+      "image": "https://www.shreejipaintsandhardware.com/ShreejiLogo.jpg",
+      "@id": "https://www.shreejipaintsandhardware.com",
+      "url": "https://www.shreejipaintsandhardware.com",
+      "telephone": "+91-9825123456",
+      "priceRange": "₹₹",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "G9, Radha Arcade, Near Indira Statue, Anand-Lambhvel Road",
+        "addressLocality": "Anand",
+        "addressRegion": "Gujarat",
+        "postalCode": "388001",
+        "addressCountry": "IN"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 22.561058402928538,
+        "longitude": 72.9475434134905
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday"
+          ],
+          "opens": "09:00",
+          "closes": "19:00"
+        }
+      ],
+      "sameAs": [
+        "https://www.instagram.com/shreeji_paints_anandcity",
+        "https://www.instagram.com/shreejipaintsandhardware"
+      ],
+      "description": "Shreeji Paints & Hardware in Anand, Gujarat provides premium paint and hardware products with expert service."
+    }
+    </script>
 
-  <meta name="description" content="Shreeji Paints & Hardware offers expert paint and hardware solutions for homes, businesses, and industries." />
-
-</head>
+    <!-- ✅ Google Tag -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-6NR1YXHHXS"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-6NR1YXHHXS');
+    </script>
+  </head>
 
   <body>
     <div id="root"></div>
-      <link rel="preload" as="image" href="/src/assets/Images/logo.png" />
+    <link rel="preload" as="image" href="/src/assets/Images/logo.png" />
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
